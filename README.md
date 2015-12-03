@@ -7,4 +7,4 @@ C’est une reproduction en Java de plusieurs webapp basées sur ce même princi
 
 *Crée dans le cadre des cours de MCS3*
 
-*IG2I, département informatique et industriel de Centrale Lille*
+*Centrale Lille, Formation IG2ienne*
