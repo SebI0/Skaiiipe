@@ -39,25 +39,23 @@ public class ConnexionClient extends Thread{
         InputStream is = null;
         try {
             is = socketServer.getInputStream();
-            ObjectInputStream InputClient = new ObjectInputStream(is);
+          //  ObjectInputStream InputClient = new ObjectInputStream(is);
             OutputStream os = socketServer.getOutputStream();
+            System.out.println("");
             ObjectOutputStream outputClient = new ObjectOutputStream(os);
             System.out.println("Votre choix: ");
             while(!Thread.currentThread().isInterrupted()){
                 Scanner scan = new Scanner(System.in);
-
                 while(true){
                     outputClient.writeObject(new Message(Message.LIST_SALONS, scan.nextLine()));
-                    Object msg = InputClient.readObject();
+                //    Object msg = InputClient.readObject();
                     //System.out.println("ConnexionServeur "+id+": bip ");
                     //System.out.println("Message reçu: "+msg);
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(ConnexionServeur.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
-         } finally {
+        } finally {
             try {
                 is.close();
             } catch (IOException ex) {

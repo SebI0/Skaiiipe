@@ -6,6 +6,7 @@
 package server;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,14 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import services.InfosServeur;
 
 /**
  *
  * @author Elie
  */
-public class Server extends Thread {
+public class Server extends Thread implements Serializable{
     
-    List<ConnexionServeur> listServers;
+    InfosServeur listServers;
     int id;
     public static int incre = 1000;
     public Server() {
@@ -32,7 +34,7 @@ public class Server extends Thread {
     
     @Override
     public void run(){
-        listServers = new ArrayList<>();
+        listServers = new InfosServeur();
         try {
             ServerSocket s2 = new ServerSocket();
             InetSocketAddress sa = new InetSocketAddress("localhost", 60000);
@@ -42,7 +44,7 @@ public class Server extends Thread {
                 Socket s = s2.accept();
                 ConnexionServeur ServerConnexion = new ConnexionServeur(s,this);
                 System.out.println("Server "+id+": Ajout d'une connexion Serveur");
-                listServers.add(ServerConnexion);
+                listServers.add(ServerConnexion.getInfos());
                 System.out.println("Il y a actuellement: "+listServers.size()+" serveurs en ligne");
                 ServerConnexion.start();
             }
@@ -51,8 +53,8 @@ public class Server extends Thread {
         }
     }
 
-    public List<ConnexionServeur> getListServers() {
-        return listServers;
+    public List<InfoServeur> getListServers() {
+        return listServers.get();
     }
     
     
