@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modele.Salon;
 import services.InfosServeur;
 
 /**
@@ -53,7 +54,7 @@ public class Server extends Thread implements Serializable{
         }
     }
 
-    public List<InfoServeur> getListServers() {
+    public List<Salon> getListServers() {
         return listServers.get();
     }
     
