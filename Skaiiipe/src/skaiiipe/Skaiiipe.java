@@ -29,6 +29,11 @@ public class Skaiiipe {
         
        /* server.Server serveur = new server.Server();
         serveur.start();
+                    Socket s1 = new Socket();
+            InetSocketAddress sa = new InetSocketAddress("localhost", 60000);
+            System.out.println("Try to connect");
+            s1.connect(sa);
+            System.out.println("Connexion Accepted");
         Socket s1 = new Socket();
         InetSocketAddress sa = new InetSocketAddress("localhost", 60000);
         s1.connect(sa);
