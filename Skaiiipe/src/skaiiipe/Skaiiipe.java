@@ -5,6 +5,8 @@
  */
 package skaiiipe;
 
+import vue.StartView;
+
 /**
  *
  * @author Seb
@@ -16,6 +18,8 @@ public class Skaiiipe {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        StartView s = new StartView();
+        s.setVisible(true);
     }
     
 }
