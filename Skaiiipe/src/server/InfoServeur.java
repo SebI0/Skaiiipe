@@ -21,6 +21,11 @@ public class InfoServeur implements Serializable{
         this.port = port;
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return "Serveur : "+nom + "adresse= " + adresse + ", port=" + port;
+    }
     
     
 }

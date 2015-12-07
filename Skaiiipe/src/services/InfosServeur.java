@@ -33,4 +33,13 @@ public class InfosServeur implements Serializable{
     public int size(){
         return listServers.size();
     }
+
+    @Override
+    public String toString() {
+        String s="";
+        for(InfoServeur serv: listServers)
+            s+="\n"+serv.toString();
+        return s;
+    }
+    
 }

@@ -53,20 +53,41 @@ public class ConnexionServeur extends Thread implements Serializable{
             ObjectOutputStream outputClient = new ObjectOutputStream(os);
             
             while(!Thread.currentThread().isInterrupted()){
-                
+                //for(InfoServeur connex : serv.getListServers())
+                    outputClient.writeObject(new Message(Message.LIST_SALONS, serv.getListServers()));  
                 while(true){
                     Object msg = InputClient.readObject();
                     System.out.println("ConnexionServeur "+id+": bip ");
                     System.out.println("Message reçu: "+msg);
                     Message m = (Message) msg;
                     switch(m.getType()){
-                        case 11 :
+                        case 0:
+                            System.out.println("Initialisation");
+                            switch( Integer.parseInt(m.getData().toString())){
+                                case 1:
+                                    System.out.println("L'utilisateur veut rejoindre un salon");
+                                    outputClient.writeObject(new Message(Message.LIST_SALONS, "test" ));  
+                                break;
+                                case 0:
+                                    System.out.println("L'utilisateur veut créer un salon");
+                                    outputClient.writeObject(new Message(Message.CREATION_SALON, "id"));  
+                                break;
+                            }
+                            break;
+                        case 1 :
                             System.out.println("Hello");
                             for(InfoServeur connex : serv.getListServers())
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
                         break;
+                        case 2 :
+                            System.out.println("Hello");
+                            for(InfoServeur connex : serv.getListServers())
+                                outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
+                        break;
+                        
                         default:
                             System.out.println("error");
+                            outputClient.writeObject(new Message(Message.ERROR, null ));
                   }
                 }
             }

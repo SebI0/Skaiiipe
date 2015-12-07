@@ -39,23 +39,33 @@ public class ConnexionClient extends Thread{
         InputStream is = null;
         try {
             is = socketServer.getInputStream();
-          //  ObjectInputStream InputClient = new ObjectInputStream(is);
+            
             OutputStream os = socketServer.getOutputStream();
             System.out.println("");
             ObjectOutputStream outputClient = new ObjectOutputStream(os);
-            System.out.println("Votre choix: ");
+            ObjectInputStream InputClient = new ObjectInputStream(is);
+            Message msg = (Message) InputClient.readObject();
+            System.out.println("Que voulez-vous faire ? \n0-Héberger un salon\n"+msg.getData().toString());
             while(!Thread.currentThread().isInterrupted()){
-                Scanner scan = new Scanner(System.in);
+                
+                
+                
                 while(true){
-                    outputClient.writeObject(new Message(Message.LIST_SALONS, scan.nextLine()));
-                //    Object msg = InputClient.readObject();
+                    Scanner scan = new Scanner(System.in);
+                   // String choix = scan.toString();
+                   // if(choix==0){
+                        outputClient.writeObject(new Message(Message.INIT, scan.nextLine()));
+                        msg = (Message) InputClient.readObject();
+                   // }
                     //System.out.println("ConnexionServeur "+id+": bip ");
                     //System.out.println("Message reçu: "+msg);
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(ConnexionServeur.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } catch (ClassNotFoundException ex) {
+             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
+         } finally {
             try {
                 is.close();
             } catch (IOException ex) {

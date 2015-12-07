@@ -16,6 +16,8 @@ public class Message implements Serializable{
     public static int LIST_SALONS = 11;
     public static int CREATION_SALON = 12;
     public static int DECONNEXION = -1;
+    public static int ERROR = -999;
+    public static int INIT = 0;
     
     private Object data;
     
