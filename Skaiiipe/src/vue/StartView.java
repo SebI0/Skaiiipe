@@ -23,8 +23,8 @@ import services.Message;
  * @author Seb
  */
 public class StartView extends javax.swing.JFrame {
-    
-     private Socket s1;
+
+    private Socket s1;
 
     /**
      * Creates new form Start
@@ -32,11 +32,10 @@ public class StartView extends javax.swing.JFrame {
     public StartView() {
         initComponents();
         connectionServeur();
-        
+
     }
-    
-    private void connectionServeur()
-    {
+
+    private void connectionServeur() {
         try {
             this.s1 = new Socket();
             InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
@@ -45,72 +44,59 @@ public class StartView extends javax.swing.JFrame {
             System.out.println("Connexion Accepted");
             ObjectOutputStream oos = new ObjectOutputStream(s1.getOutputStream());
             Message demandeSalons = new Message(Message.LIST_SALONS, 0);
-            
+
             oos.writeObject(demandeSalons);
             listerSalons();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void listerSalons()
-    {
-        int vrai=1;
-         try {
-             ObjectInputStream ois = null;
-             
-             
-             ois = new ObjectInputStream(s1.getInputStream());
-             System.out.println("__client__ reception données");
-             
-              Message m = (Message) ois.readObject();
-                while (m != null) {
-                 try {
-                     Message liste_salons = (Message)ois.readObject();
-                     ArrayList<Salon> listeSalons = (ArrayList<Salon>) liste_salons.getData();
-                     System.out.println("__client__" + listeSalons);
-                     //fin reception//
-                     
-                     ArrayList<String> listeCategories = new ArrayList<>();
-                     DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Salons");
-                     for (Salon s : listeSalons) {
-                         System.out.println(s);
-                         int pos = listeCategories.indexOf(s.getCatégorie());
-                         if (pos == -1)
-                         {
-                             DefaultMutableTreeNode categorie = new DefaultMutableTreeNode(s.getCatégorie());
-                             DefaultMutableTreeNode salon = new DefaultMutableTreeNode(s);
-                             racine.add(categorie);
-                             categorie.add(salon);
-                             listeCategories.add(s.getCatégorie());
-                         }else{
-                             DefaultMutableTreeNode salon = new DefaultMutableTreeNode(s);
-                             DefaultMutableTreeNode categorie = (DefaultMutableTreeNode) racine.getChildAt(pos);
-                             categorie.add(salon);
-                         }
-                     }    DefaultTreeModel dtm = new DefaultTreeModel(racine);
-                     jTree1.setModel(dtm);
-                 } catch (IOException ex) {
-                     Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
-                 } catch (ClassNotFoundException ex) {
-                     Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
-                 } finally {
-                     
-                 }
-                 m = null;
-             }
-         } catch (IOException ex) {
-             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
-             
-         } catch (ClassNotFoundException ex) {
-             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
-         }
-    } 
-        
-        
-        
-    
+
+    public void listerSalons() {
+        int vrai = 1;
+        try {
+            ObjectInputStream ois = null;
+
+            ois = new ObjectInputStream(s1.getInputStream());
+            System.out.println("__client__ reception données");
+
+            Message salonsMessage = (Message) ois.readObject();
+            while (salonsMessage != null) {
+                if (salonsMessage.getType() == Message.LIST_SALONS) {
+                    ArrayList<Salon> listeSalons = (ArrayList<Salon>) salonsMessage.getData();
+                    System.out.println("__client__" + listeSalons);
+                    //fin reception//
+                    
+                    ArrayList<String> listeCategories = new ArrayList<>();
+                    DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Salons");
+                    for (Salon s : listeSalons) {
+                        System.out.println(s);
+                        int pos = listeCategories.indexOf(s.getCatégorie());
+                        if (pos == -1) {
+                            DefaultMutableTreeNode categorie = new DefaultMutableTreeNode(s.getCatégorie());
+                            DefaultMutableTreeNode salon = new DefaultMutableTreeNode(s);
+                            racine.add(categorie);
+                            categorie.add(salon);
+                            listeCategories.add(s.getCatégorie());
+                        } else {
+                            DefaultMutableTreeNode salon = new DefaultMutableTreeNode(s);
+                            DefaultMutableTreeNode categorie = (DefaultMutableTreeNode) racine.getChildAt(pos);
+                            categorie.add(salon);
+                        }
+                    }
+                    DefaultTreeModel dtm = new DefaultTreeModel(racine);
+                    jTree1.setModel(dtm);
+                }
+                salonsMessage = null;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -167,6 +153,11 @@ public class StartView extends javax.swing.JFrame {
         salonUsersTxt.setText("Nom du salon");
 
         connectionBtn.setText("Connexion");
+        connectionBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectionBtnActionPerformed(evt);
+            }
+        });
 
         jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -272,9 +263,13 @@ public class StartView extends javax.swing.JFrame {
             salonCategoryTxt.setText(salonSelected.getCatégorie());
             salonIpTxt.setText(salonSelected.getIp());
             salonUsersTxt.setText(String.valueOf(salonSelected.getNbUsers()));
-            
+
         }
     }//GEN-LAST:event_jTree1MouseReleased
+
+    private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_connectionBtnActionPerformed
 
     /**
      * @param args the command line arguments
