@@ -21,7 +21,7 @@ import services.Message;
  * @author Elie
  */
 public class ConnexionClient extends Thread{
-     Socket socketServer;
+    Socket socketServer;
     int id;
     public static int incre = 0;
 
@@ -30,47 +30,5 @@ public class ConnexionClient extends Thread{
         id = incre;
         incre++;
     }
-    
-    
-    
-    @Override 
-    public void run(){
-        System.out.println("HELLO");
-        InputStream is = null;
-        try {
-            is = socketServer.getInputStream();
-            
-            OutputStream os = socketServer.getOutputStream();
-            System.out.println("");
-            ObjectOutputStream outputClient = new ObjectOutputStream(os);
-            ObjectInputStream InputClient = new ObjectInputStream(is);
-            Message msg = (Message) InputClient.readObject();
-            System.out.println("Que voulez-vous faire ? \n0-Héberger un salon\n"+msg.getData().toString());
-            while(!Thread.currentThread().isInterrupted()){
-                
-                
-                
-                while(true){
-                    Scanner scan = new Scanner(System.in);
-                   // String choix = scan.toString();
-                   // if(choix==0){
-                        outputClient.writeObject(new Message(Message.INIT, scan.nextLine()));
-                        msg = (Message) InputClient.readObject();
-                   // }
-                    //System.out.println("ConnexionServeur "+id+": bip ");
-                    //System.out.println("Message reçu: "+msg);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(ConnexionServeur.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
-         } finally {
-            try {
-                is.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ConnexionServeur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+   
 }

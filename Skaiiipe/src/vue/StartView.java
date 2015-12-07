@@ -16,7 +16,11 @@ import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import modele.Salon;
+import server.ConnexionClient;
 import services.Message;
+import tppaint2014.EcouteurFenetre;
+import tppaint2014.Fenetre;
+import tppaint2014.TPPaint2014;
 
 /**
  *
@@ -294,12 +298,25 @@ listerSalons();
             outputStream.writeObject(new Message(Message.CREATION_SALON, ""));
             Object msg = (Object) inputStream.readObject();
             System.out.println("Considéré comme un salon d'id: "+msg.toString());
+            Socket s1 = new Socket();
+        InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
+        s1.connect(sa);
+        System.out.println("Connexion Accepted");
+        ConnexionClient ConnexionSock = new ConnexionClient(s1);
+        ConnexionSock.start();
+        Fenetre f = new Fenetre(ConnexionSock);
+        f.setVisible(true);
+        
+        EcouteurFenetre ef = new EcouteurFenetre();
+        
+        f.addWindowListener(ef);
         } catch (IOException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
