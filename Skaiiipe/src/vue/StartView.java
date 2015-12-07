@@ -33,7 +33,7 @@ public class StartView extends javax.swing.JFrame {
     public StartView() {
         initComponents();
         connectionServeur();
-
+listerSalons();
     }
 
     private void connectionServeur() {
@@ -48,7 +48,7 @@ public class StartView extends javax.swing.JFrame {
 
             outputStream.writeObject(demandeSalons);
             inputStream = new ObjectInputStream(s1.getInputStream());
-            listerSalons();
+            
 
         } catch (IOException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);

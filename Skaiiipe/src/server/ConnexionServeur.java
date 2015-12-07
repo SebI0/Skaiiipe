@@ -23,117 +23,114 @@ import services.Message;
  *
  * @author Elie
  */
-public class ConnexionServeur extends Thread implements Serializable{
-    
+public class ConnexionServeur extends Thread implements Serializable {
+
     Socket socketServer;
     int id;
     public static int incre = 0;
     private Server serv;
     private Salon info;
     private boolean estHote;
-    
-    
+
     public ConnexionServeur(java.net.Socket socketServer, Server s) {
         this.socketServer = socketServer;
         id = incre;
         incre++;
-        this.serv = s ;
-        info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(),"Serveur "+id, "cate");
+        this.serv = s;
+        info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(), "Serveur " + id, "cate");
         estHote = false;
     }
-    
-    public Salon getInfos(){
+
+    public Salon getInfos() {
         return info;
     }
-    
-    
-    @Override 
-    public void run(){
-        
-        
+
+    @Override
+    public void run() {
+
         ArrayList<Salon> listeSalons = new ArrayList<Salon>();
         Salon s1 = new Salon("178.15.48.9", 50000, "MCS", "Travail");
         Salon s2 = new Salon("178.15.48.1", 50000, "AUI", "Travail");
         Salon s3 = new Salon("178.15.48.5", 50000, "Vegas 2", "Jeu");
         Salon s4 = new Salon("178.15.45.48", 50000, "GTA V", "Jeu");
-        
+
         listeSalons.add(s1);
         listeSalons.add(s2);
         listeSalons.add(s3);
         listeSalons.add(s4);
-        
+
         InputStream is = null;
         try {
             is = socketServer.getInputStream();
             ObjectInputStream InputClient = new ObjectInputStream(is);
             OutputStream os = socketServer.getOutputStream();
             ObjectOutputStream outputClient = new ObjectOutputStream(os);
-            
-            while(!Thread.currentThread().isInterrupted()){
+
+            while (!Thread.currentThread().isInterrupted()) {
                 if (!estHote) {
-                //for(InfoServeur connex : serv.getListServers())
-                    outputClient.writeObject(new Message(Message.LIST_SALONS, serv.getListServers()));  
-                while(!Thread.currentThread().isInterrupted()&&!estHote){
-                    Object msg = InputClient.readObject();
-                    System.out.println("ConnexionServeur "+id+": bip ");
-                    System.out.println("Message reçu: "+msg);
-                    Message m = (Message) msg;
-                    switch(m.getType()){
-                        case 0:
-                            System.out.println("Initialisation");
-                            switch( Integer.parseInt(m.getData().toString())){
-                                case 1:
-                                    System.out.println("L'utilisateur veut rejoindre un salon");
-                                    outputClient.writeObject(new Message(Message.LIST_SALONS, "test" ));  
+                    //for(InfoServeur connex : serv.getListServers())
+                    //outputClient.writeObject(new Message(Message.LIST_SALONS, serv.getListServers()));  
+                    while (!Thread.currentThread().isInterrupted() && !estHote) {
+                        Object msg = InputClient.readObject();
+                        System.out.println("ConnexionServeur " + id + ": bip ");
+                        System.out.println("Message reçu: " + msg);
+                        Message m = (Message) msg;
+                        switch (m.getType()) {
+                            case 0:
+                                System.out.println("Initialisation");
+                                switch (Integer.parseInt(m.getData().toString())) {
+                                    case 1:
+                                        System.out.println("L'utilisateur veut rejoindre un salon");
+                                        outputClient.writeObject(new Message(Message.LIST_SALONS, "test"));
+                                        break;
+                                    case 0:
+                                        System.out.println("L'utilisateur veut créer un salon");
+                                        outputClient.writeObject(new Message(Message.CREATION_SALON, "id"));
+                                        break;
+                                }
                                 break;
-                                case 0:
-                                    System.out.println("L'utilisateur veut créer un salon");
-                                    outputClient.writeObject(new Message(Message.CREATION_SALON, "id"));  
+                            case 1:
+                                System.out.println("Hello");
+                                for (Salon connex : serv.getListServers()) {
+                                    outputClient.writeObject(new Message(Message.LIST_SALONS, connex));
+                                }
                                 break;
-                            }
-                            break;
-                        case 1 :
-                            System.out.println("Hello");
-                            for(Salon connex : serv.getListServers())
-                                outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
-                        break;
-                        case 2 :
-                            System.out.println("Hello");
-                            for(Salon connex : serv.getListServers())
-                                outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
-                        break;
-                        
-                        case Message.LIST_SALONS:
-                            System.out.println("__server__ envoi liste salons");
-                           // for(Salon connex : serv.getListServers())
-                            System.out.println("__server__ " + listeSalons);
-                                outputClient.writeObject(new Message(Message.LIST_SALONS, listeSalons )); 
-                            break;
-                        
-                        case Message.CREATION_SALON:
-                            this.estHote = true;
-                            break;
-                        default:
-                            System.out.println("error");
-                            outputClient.writeObject(new Message(Message.ERROR, null ));
-                  }
-                }
-                }
-                else
-                {
-                  outputClient.writeObject(new Message(Message.CREATION_SALON, id));
+                            case 2:
+                                System.out.println("Hello");
+                                for (Salon connex : serv.getListServers()) {
+                                    outputClient.writeObject(new Message(Message.LIST_SALONS, connex));
+                                }
+                                break;
+
+                            case Message.LIST_SALONS:
+                                System.out.println("__server__ envoi liste salons");
+                                // for(Salon connex : serv.getListServers())
+                                System.out.println("__server__ " + listeSalons);
+                                outputClient.writeObject(new Message(Message.LIST_SALONS, listeSalons));
+                                break;
+
+                            case Message.CREATION_SALON:
+                                this.estHote = true;
+                                break;
+                            default:
+                                System.out.println("error");
+                                outputClient.writeObject(new Message(Message.ERROR, null));
+                        }
+                    }
+                } else {
+                    outputClient.writeObject(new Message(Message.CREATION_SALON, id));
                     //Tant que le client héberge un salon
-                    while(!Thread.currentThread().isInterrupted()&&estHote)
-                    {
+                    while (!Thread.currentThread().isInterrupted() && estHote) {
                         Message msg = (Message) InputClient.readObject();
-                        switch(msg.getType()){
-                            case Message.MAJ_SALON: info.setNbUsers(Integer.getInteger((String) msg.getData()));
+                        switch (msg.getType()) {
+                            case Message.MAJ_SALON:
+                                info.setNbUsers(Integer.getInteger((String) msg.getData()));
                                 break;
                             case Message.FERMETURE_SALON:
-                                estHote=false;
+                                estHote = false;
                                 break;
                         }
-                    }  
+                    }
                 }
             }
         } catch (IOException ex) {
