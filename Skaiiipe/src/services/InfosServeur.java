@@ -8,25 +8,26 @@ package services;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import server.ConnexionServeur;
+import modele.Salon;
 import server.InfoServeur;
+
 
 /**
  *
  * @author Elie
  */
 public class InfosServeur implements Serializable{
-    List<InfoServeur> listServers;
+    List<Salon> listServers;
 
     public InfosServeur() {
         listServers = new ArrayList<>();
     }
     
-    public void add(InfoServeur connexion){
+    public void add(Salon connexion){
         listServers.add(connexion);
     }
     
-    public List<InfoServeur> get(){
+    public List<Salon> get(){
         return listServers;
     }
     
@@ -37,7 +38,7 @@ public class InfosServeur implements Serializable{
     @Override
     public String toString() {
         String s="";
-        for(InfoServeur serv: listServers)
+        for(Salon serv: listServers)
             s+="\n"+serv.toString();
         return s;
     }

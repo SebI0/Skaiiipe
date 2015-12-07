@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modele.Salon;
 import services.Message;
 
 /**
@@ -27,7 +28,7 @@ public class ConnexionServeur extends Thread implements Serializable{
     int id;
     public static int incre = 0;
     private Server serv;
-    private InfoServeur info;
+    private Salon info;
     
     
     public ConnexionServeur(java.net.Socket socketServer, Server s) {
@@ -35,10 +36,10 @@ public class ConnexionServeur extends Thread implements Serializable{
         id = incre;
         incre++;
         this.serv = s ;
-        info = new InfoServeur(socketServer.getInetAddress().toString(), socketServer.getPort(),"Serveur "+id);
+        info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(),"Serveur "+id, "cate");
     }
     
-    public InfoServeur getInfos(){
+    public Salon getInfos(){
         return info;
     }
     
@@ -76,12 +77,12 @@ public class ConnexionServeur extends Thread implements Serializable{
                             break;
                         case 1 :
                             System.out.println("Hello");
-                            for(InfoServeur connex : serv.getListServers())
+                            for(Salon connex : serv.getListServers())
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
                         break;
                         case 2 :
                             System.out.println("Hello");
-                            for(InfoServeur connex : serv.getListServers())
+                            for(Salon connex : serv.getListServers())
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
                         break;
                         
