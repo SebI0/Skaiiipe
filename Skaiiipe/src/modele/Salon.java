@@ -5,11 +5,13 @@
  */
 package modele;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Seb
  */
-public class Salon {
+public class Salon implements Serializable{
     
     private String ip;
     private int port;
