@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +37,7 @@ public class Server extends Thread implements Serializable{
         listServers = new InfosServeur();
         try {
             ServerSocket s2 = new ServerSocket();
-            InetSocketAddress sa = new InetSocketAddress("localhost", 60000);
+            InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
             s2.bind(sa);
             System.out.println("SOCKET READY");
             while(!Thread.currentThread().isInterrupted()){

@@ -12,12 +12,12 @@ import java.io.Serializable;
  * @author Elie
  */
 public class Message implements Serializable{
-    public static int FORME = 10;
-    public static int LIST_SALONS = 11;
-    public static int CREATION_SALON = 12;
-    public static int DECONNEXION = -1;
-    public static int ERROR = -999;
-    public static int INIT = 0;
+    public static final int FORME = 10;
+    public static final int LIST_SALONS = 11;
+    public static final int CREATION_SALON = 12;
+    public static final int DECONNEXION = -1;
+    public static final int ERROR = -999;
+    public static final int INIT = 0;
     
     private Object data;
     

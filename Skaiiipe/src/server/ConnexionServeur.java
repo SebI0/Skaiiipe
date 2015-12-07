@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.Salon;
@@ -46,6 +47,19 @@ public class ConnexionServeur extends Thread implements Serializable{
     
     @Override 
     public void run(){
+        
+        
+        ArrayList<Salon> listeSalons = new ArrayList<Salon>();
+        Salon s1 = new Salon("178.15.48.9", 50000, "MCS", "Travail");
+        Salon s2 = new Salon("178.15.48.1", 50000, "AUI", "Travail");
+        Salon s3 = new Salon("178.15.48.5", 50000, "Vegas 2", "Jeu");
+        Salon s4 = new Salon("178.15.45.48", 50000, "GTA V", "Jeu");
+        
+        listeSalons.add(s1);
+        listeSalons.add(s2);
+        listeSalons.add(s3);
+        listeSalons.add(s4);
+        
         InputStream is = null;
         try {
             is = socketServer.getInputStream();
@@ -85,6 +99,13 @@ public class ConnexionServeur extends Thread implements Serializable{
                             for(Salon connex : serv.getListServers())
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, connex ));
                         break;
+                        
+                        case Message.LIST_SALONS:
+                            System.out.println("__server__ envoi liste salons");
+                           // for(Salon connex : serv.getListServers())
+                            System.out.println("__server__ " + listeSalons);
+                                outputClient.writeObject(new Message(Message.LIST_SALONS, listeSalons )); 
+                            break;
                         
                         default:
                             System.out.println("error");

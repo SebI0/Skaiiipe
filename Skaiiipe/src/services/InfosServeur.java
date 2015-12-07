@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import modele.Salon;
-import server.InfoServeur;
 
 
 /**
