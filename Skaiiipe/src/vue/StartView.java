@@ -25,7 +25,8 @@ import services.Message;
 public class StartView extends javax.swing.JFrame {
 
     private Socket s1;
-
+    ObjectInputStream inputStream; 
+    ObjectOutputStream outputStream;
     /**
      * Creates new form Start
      */
@@ -42,10 +43,11 @@ public class StartView extends javax.swing.JFrame {
             System.out.println("Try to connect");
             s1.connect(sa);
             System.out.println("Connexion Accepted");
-            ObjectOutputStream oos = new ObjectOutputStream(s1.getOutputStream());
+            outputStream = new ObjectOutputStream(s1.getOutputStream());
             Message demandeSalons = new Message(Message.LIST_SALONS, 0);
 
-            oos.writeObject(demandeSalons);
+            outputStream.writeObject(demandeSalons);
+            inputStream = new ObjectInputStream(s1.getInputStream());
             listerSalons();
 
         } catch (IOException ex) {
@@ -56,12 +58,10 @@ public class StartView extends javax.swing.JFrame {
     public void listerSalons() {
         int vrai = 1;
         try {
-            ObjectInputStream ois = null;
-
-            ois = new ObjectInputStream(s1.getInputStream());
+         
             System.out.println("__client__ reception données");
 
-            Message salonsMessage = (Message) ois.readObject();
+            Message salonsMessage = (Message) inputStream.readObject();
             while (salonsMessage != null) {
                 if (salonsMessage.getType() == Message.LIST_SALONS) {
                     ArrayList<Salon> listeSalons = (ArrayList<Salon>) salonsMessage.getData();
@@ -107,6 +107,7 @@ public class StartView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
@@ -122,6 +123,9 @@ public class StartView extends javax.swing.JFrame {
         salonIpTxt = new javax.swing.JLabel();
         salonUsersTxt = new javax.swing.JLabel();
         connectionBtn = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,22 +163,12 @@ public class StartView extends javax.swing.JFrame {
             }
         });
 
-        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonCategoryTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonIpTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonUsersTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(connectionBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,6 +212,22 @@ public class StartView extends javax.swing.JFrame {
                     .addComponent(salonUsersTxt))
                 .addGap(58, 58, 58))
         );
+        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonCategoryTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonIpTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonUsersTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(connectionBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton2.setText("Créer salon");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,8 +242,13 @@ public class StartView extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField1)))
-                .addGap(18, 18, 18)
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jButton2)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -245,10 +260,11 @@ public class StartView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(24, 24, 24)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -270,6 +286,21 @@ public class StartView extends javax.swing.JFrame {
     private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_connectionBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        try {
+            System.out.println("Demande création de salon");
+            outputStream.writeObject(new Message(Message.CREATION_SALON, ""));
+            Object msg = (Object) inputStream.readObject();
+            System.out.println("Considéré comme un salon d'id: "+msg.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -309,6 +340,8 @@ public class StartView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectionBtn;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

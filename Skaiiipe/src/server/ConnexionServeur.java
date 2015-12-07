@@ -30,6 +30,7 @@ public class ConnexionServeur extends Thread implements Serializable{
     public static int incre = 0;
     private Server serv;
     private Salon info;
+    private boolean estHote;
     
     
     public ConnexionServeur(java.net.Socket socketServer, Server s) {
@@ -38,6 +39,7 @@ public class ConnexionServeur extends Thread implements Serializable{
         incre++;
         this.serv = s ;
         info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(),"Serveur "+id, "cate");
+        estHote = false;
     }
     
     public Salon getInfos(){
@@ -68,9 +70,10 @@ public class ConnexionServeur extends Thread implements Serializable{
             ObjectOutputStream outputClient = new ObjectOutputStream(os);
             
             while(!Thread.currentThread().isInterrupted()){
+                if (!estHote) {
                 //for(InfoServeur connex : serv.getListServers())
                     outputClient.writeObject(new Message(Message.LIST_SALONS, serv.getListServers()));  
-                while(true){
+                while(!Thread.currentThread().isInterrupted()&&!estHote){
                     Object msg = InputClient.readObject();
                     System.out.println("ConnexionServeur "+id+": bip ");
                     System.out.println("Message reçu: "+msg);
@@ -107,10 +110,30 @@ public class ConnexionServeur extends Thread implements Serializable{
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, listeSalons )); 
                             break;
                         
+                        case Message.CREATION_SALON:
+                            this.estHote = true;
+                            break;
                         default:
                             System.out.println("error");
                             outputClient.writeObject(new Message(Message.ERROR, null ));
                   }
+                }
+                }
+                else
+                {
+                  outputClient.writeObject(new Message(Message.CREATION_SALON, id));
+                    //Tant que le client héberge un salon
+                    while(!Thread.currentThread().isInterrupted()&&estHote)
+                    {
+                        Message msg = (Message) InputClient.readObject();
+                        switch(msg.getType()){
+                            case Message.MAJ_SALON: info.setNbUsers(Integer.getInteger((String) msg.getData()));
+                                break;
+                            case Message.FERMETURE_SALON:
+                                estHote=false;
+                                break;
+                        }
+                    }  
                 }
             }
         } catch (IOException ex) {
