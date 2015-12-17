@@ -47,7 +47,7 @@ public class Server extends Thread implements Serializable{
                 Socket s = s2.accept();
                 ConnexionServeur ServerConnexion = new ConnexionServeur(s,this);
                 System.out.println("Server "+id+": Ajout d'une connexion Serveur");
-                listServers.add(ServerConnexion.getInfos());
+                //listServers.add(ServerConnexion.getInfos());
                 System.out.println("Il y a actuellement: "+listServers.size()+" serveurs en ligne");
                 ServerConnexion.start();
             }

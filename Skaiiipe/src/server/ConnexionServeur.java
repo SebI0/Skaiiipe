@@ -95,15 +95,17 @@ public class ConnexionServeur extends Thread implements Serializable {
                                  System.out.println("__server__ envoi liste salons");
                                 // for(Salon connex : serv.getListServers())
                                 System.out.println("__server__ " + this.serv.getSalons());
-                                outputClient.writeObject(new Message(Message.LIST_SALONS, this.serv.getSalons()));
-
+                                outputClient.writeObject(new Message(Message.LIST_SALONS, this.serv.listServers.get()));
+                                break;
                             case Message.CREATION_SALON:
                                 
                                 this.estHote = true;
+                                serv.listServers.add((Salon) m.getData());
                                 break;
                             default:
                                 System.out.println("error");
                                 outputClient.writeObject(new Message(Message.ERROR, null));
+                                break;
                         }
                     }
                 } else {

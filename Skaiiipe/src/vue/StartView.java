@@ -38,8 +38,8 @@ public class StartView extends javax.swing.JFrame {
     public StartView() {
         initComponents();
         connectionServeur();
-listerSalons();
-listerCategorieSalon();
+        listerSalons();
+        listerCategorieSalon();
     }
 
     private void connectionServeur() {
@@ -349,7 +349,7 @@ listerCategorieSalon();
 
         try {
             System.out.println("Demande création de salon");
-            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon("", 60001, jTextField2.getText(), (String) jComboBox1.getSelectedItem())));
+            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon("", 60001, jTextField2.getText(), "MCS3")));
             Object msg = (Object) inputStream.readObject();
             System.out.println("Considéré comme un salon d'id: "+msg.toString());
             Socket s1 = new Socket();
