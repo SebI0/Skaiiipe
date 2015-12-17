@@ -46,6 +46,7 @@ public class Server extends Thread implements Serializable{
                 System.out.println("Server "+id+": Ajout d'une connexion Serveur");
                 listServers.add(ServerConnexion.getInfos());
                 System.out.println("Il y a actuellement: "+listServers.size()+" serveurs en ligne");
+                System.out.println("Liste des serveurs:"+this.getListServers().toString());
                 ServerConnexion.start();
             }
         } catch (IOException ex) {
