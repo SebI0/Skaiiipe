@@ -8,6 +8,7 @@ package vue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -29,9 +30,10 @@ import tppaint2014.TPPaint2014;
 public class StartView extends javax.swing.JFrame {
 
     private Socket s1;
-    ObjectInputStream inputStream; 
+    ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
-     ArrayList<Salon> listeSalons;
+    ArrayList<Salon> listeSalons;
+
     /**
      * Creates new form Start
      */
@@ -54,26 +56,25 @@ public class StartView extends javax.swing.JFrame {
 
             outputStream.writeObject(demandeSalons);
             inputStream = new ObjectInputStream(s1.getInputStream());
-            
 
         } catch (IOException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void listerCategorieSalon(){
+    public void listerCategorieSalon() {
         jComboBox1.removeAllItems();
-        
-        for(Salon sal : listeSalons){
-                jComboBox1.addItem(sal.getCatégorie());
+
+        for (Salon sal : listeSalons) {
+            jComboBox1.addItem(sal.getCatégorie());
         }
 
     }
-    
+
     public void listerSalons() {
         int vrai = 1;
         try {
-         
+
             System.out.println("__client__ reception données");
 
             Message salonsMessage = (Message) inputStream.readObject();
@@ -82,7 +83,7 @@ public class StartView extends javax.swing.JFrame {
                     listeSalons = (ArrayList<Salon>) salonsMessage.getData();
                     System.out.println("__client__" + listeSalons);
                     //fin reception//
-                    
+
                     ArrayList<String> listeCategories = new ArrayList<>();
                     DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Salons");
                     for (Salon s : listeSalons) {
@@ -188,34 +189,34 @@ public class StartView extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(72, 72, 72)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(salonIpTxt)
-                            .addComponent(salonCategoryTxt)
-                            .addComponent(salonNameTxt)))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(salonUsersTxt)))
-                .addGap(17, 17, 17))
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(connectionBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(72, 72, 72)
+                                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(salonIpTxt)
+                                    .addComponent(salonCategoryTxt)
+                                    .addComponent(salonNameTxt)))
+                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salonUsersTxt)))
+                        .addGap(17, 17, 17))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(connectionBtn)
+                        .addGap(82, 82, 82))))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addComponent(connectionBtn)
-                .addGap(21, 21, 21)
+                .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(salonNameTxt))
@@ -227,11 +228,13 @@ public class StartView extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(salonIpTxt))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(salonUsersTxt))
-                .addGap(58, 58, 58))
+                .addGap(18, 18, 18)
+                .addComponent(connectionBtn)
+                .addGap(17, 17, 17))
         );
         jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -293,9 +296,9 @@ public class StartView extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField3)))
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +307,7 @@ public class StartView extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(jLayeredPane1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -342,18 +345,39 @@ public class StartView extends javax.swing.JFrame {
     }//GEN-LAST:event_jTree1MouseReleased
 
     private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
-        // TODO add your handling code here:
+        /*Connexion au client*/
+        try {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+            if (selectedNode.isLeaf() == true) {
+                Salon salonSelected = (Salon) selectedNode.getUserObject();
+                this.s1 = new Socket();
+                InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), 60002);
+                System.out.println("Try to connect");
+                s1.connect(sa);
+                System.out.println("Connexion Accepted");
+                outputStream = new ObjectOutputStream(s1.getOutputStream());
+                inputStream = new ObjectInputStream(s1.getInputStream());
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }//GEN-LAST:event_connectionBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         try {
             System.out.println("Demande création de salon");
-            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon("", 60001, jTextField2.getText(), "MCS3")));
+            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon(/*InetAddress.getLocalHost().toString()*/"192.168.70.124", 6008, jTextField2.getText(), "MCS3")));
             Object msg = (Object) inputStream.readObject();
             System.out.println("Considéré comme un salon d'id: "+msg.toString());
-            Socket s1 = new Socket();
-        InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
+
+            Host hote = new Host();
+            hote.start();
+            
+        Socket s1 = new Socket();
+        InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
         s1.connect(sa);
         System.out.println("Connexion Accepted");
         ConnexionClient ConnexionSock = new ConnexionClient(s1);
@@ -364,10 +388,19 @@ public class StartView extends javax.swing.JFrame {
         EcouteurFenetre ef = new EcouteurFenetre();
         
         f.addWindowListener(ef);
-        } catch (IOException ex) {
-            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+        
+        
+
+} catch (IOException ex) {
+            Logger.getLogger(StartView.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+catch (ClassNotFoundException ex) {
+            Logger.getLogger(StartView.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         
        
@@ -387,16 +420,32 @@ public class StartView extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(StartView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(StartView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(StartView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
