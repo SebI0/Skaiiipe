@@ -22,7 +22,7 @@ import services.InfosServeur;
  */
 public class Host extends Thread{
     
-    //ListClient;
+    private ArrayList<ConnexionClient>ListClient;
     private ArrayList<Salon> salons;
     int id;
     public static int incre = 1000;
@@ -34,6 +34,7 @@ public class Host extends Thread{
     @Override
     public void run(){
         try {
+            ListClient = new ArrayList<>();
             ServerSocket s2 = new ServerSocket();
             InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
             s2.bind(sa);
@@ -41,9 +42,10 @@ public class Host extends Thread{
             while(!Thread.currentThread().isInterrupted()){
                 Socket s = s2.accept();
                 ConnexionClient ConnexionCli = new ConnexionClient(s);
-                System.out.println("Server "+id+": Ajout d'une connexion Serveur");
-                //listServers.add(ServerConnexion.getInfos());
-                System.out.println("Il y a actuellement: 0 users en ligne");
+                System.out.println("Client "+id+": Ajout d'un client");
+                ListClient.add(ConnexionCli);
+//listServers.add(ServerConnexion.getInfos());
+                System.out.println("Il y a actuellement: "+ListClient.size()+" users en ligne");
                 ConnexionCli.start();
             }
         } catch (IOException ex) {
