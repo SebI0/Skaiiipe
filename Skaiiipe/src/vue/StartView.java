@@ -355,55 +355,56 @@ public class StartView extends javax.swing.JFrame {
                 System.out.println("Try to connect");
                 s1.connect(sa);
                 System.out.println("Connexion Accepted");
-                outputStream = new ObjectOutputStream(s1.getOutputStream());
-                inputStream = new ObjectInputStream(s1.getInputStream());
-            }
+                ConnexionClient ConnexionSock = new ConnexionClient(s1);
+                ConnexionSock.start();
+                Fenetre f = new Fenetre(ConnexionSock);
+                f.setVisible(true);
+                EcouteurFenetre ef = new EcouteurFenetre();
+                f.addWindowListener(ef);
+                
+               }
 
         } catch (IOException ex) {
             Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }//GEN-LAST:event_connectionBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         try {
             System.out.println("Demande création de salon");
-            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon(/*InetAddress.getLocalHost().toString()*/"192.168.70.124", 6008, jTextField2.getText(), "MCS3")));
+            outputStream.writeObject(new Message(Message.CREATION_SALON, new Salon(/*InetAddress.getLocalHost().toString()*/"localhost", 60002, jTextField2.getText(), "MCS3")));
             Object msg = (Object) inputStream.readObject();
-            System.out.println("Considéré comme un salon d'id: "+msg.toString());
-
-            Host hote = new Host();
+            System.out.println("Considéré comme un salon d'id: " + msg.toString());
+            Message mesg = (Message) msg;
+            int idsalon = (int) mesg.getData();
+            Host hote = new Host(inputStream,outputStream);
+            hote.setId_salon(idsalon);
             hote.start();
-            
-        Socket s1 = new Socket();
-        InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
-        s1.connect(sa);
-        System.out.println("Connexion Accepted");
-        ConnexionClient ConnexionSock = new ConnexionClient(s1);
-        ConnexionSock.start();
-        Fenetre f = new Fenetre(ConnexionSock);
-        f.setVisible(true);
-        
-        EcouteurFenetre ef = new EcouteurFenetre();
-        
-        f.addWindowListener(ef);
-        
-        
 
-} catch (IOException ex) {
-            Logger.getLogger(StartView.class  
+            Socket s1 = new Socket();
+            InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
+            s1.connect(sa);
+            System.out.println("Connexion Accepted");
+            ConnexionClient ConnexionSock = new ConnexionClient(s1);
+            ConnexionSock.start();
+            Fenetre f = new Fenetre(ConnexionSock);
+            f.setVisible(true);
 
-.getName()).log(Level.SEVERE, null, ex);
-        } 
+            EcouteurFenetre ef = new EcouteurFenetre();
 
-catch (ClassNotFoundException ex) {
-            Logger.getLogger(StartView.class  
+            f.addWindowListener(ef);
 
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartView.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StartView.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-        
-       
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -420,32 +421,21 @@ catch (ClassNotFoundException ex) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartView.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartView.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartView.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartView.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(StartView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(StartView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(StartView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

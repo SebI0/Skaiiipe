@@ -5,7 +5,10 @@
  */
 package vue;
 
+import com.sun.corba.se.pept.encoding.OutputObject;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.Salon;
 import server.ConnexionClient;
-import services.InfosServeur;
+import services.Message;
 
 /**
  *
@@ -25,11 +28,26 @@ public class Host extends Thread{
     private ArrayList<ConnexionClient>ListClient;
     private ArrayList<Salon> salons;
     int id;
+    private int id_salon;
     public static int incre = 1000;
-    public Host() {
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+    public Host(ObjectInputStream inputStr,ObjectOutputStream outputStr) {
         id= incre;
         incre++;
+        this.inputStream = inputStr;
+        this.outputStream = outputStr;
     }
+
+    public int getId_salon() {
+        return id_salon;
+    }
+
+    public void setId_salon(int id_salon) {
+        this.id_salon = id_salon;
+    }
+    
+    
     
     @Override
     public void run(){
@@ -44,7 +62,7 @@ public class Host extends Thread{
                 ConnexionClient ConnexionCli = new ConnexionClient(s);
                 System.out.println("Client "+id+": Ajout d'un client");
                 ListClient.add(ConnexionCli);
-//listServers.add(ServerConnexion.getInfos());
+                outputStream.writeObject(new Message(Message.MAJ_SALON, ListClient.size()));
                 System.out.println("Il y a actuellement: "+ListClient.size()+" users en ligne");
                 ConnexionCli.start();
             }

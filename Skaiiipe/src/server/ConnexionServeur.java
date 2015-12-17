@@ -113,7 +113,8 @@ public class ConnexionServeur extends Thread implements Serializable {
                         Message msg = (Message) InputClient.readObject();
                         switch (msg.getType()) {
                             case Message.MAJ_SALON:
-                                info.setNbUsers(Integer.getInteger((String) msg.getData()));
+                                info.setNbUsers((int) msg.getData());
+                                System.out.println("UPDATE");
                                 break;
                             case Message.FERMETURE_SALON:
                                 estHote = false;
