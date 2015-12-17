@@ -48,17 +48,6 @@ public class ConnexionServeur extends Thread implements Serializable {
     @Override
     public void run() {
 
-        ArrayList<Salon> listeSalons = new ArrayList<Salon>();
-        Salon s1 = new Salon("178.15.48.9", 50000, "MCS", "Travail");
-        Salon s2 = new Salon("178.15.48.1", 50000, "AUI", "Travail");
-        Salon s3 = new Salon("178.15.48.5", 50000, "Vegas 2", "Jeu");
-        Salon s4 = new Salon("178.15.45.48", 50000, "GTA V", "Jeu");
-
-        listeSalons.add(s1);
-        listeSalons.add(s2);
-        listeSalons.add(s3);
-        listeSalons.add(s4);
-
         InputStream is = null;
         try {
             is = socketServer.getInputStream();
@@ -103,13 +92,13 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 break;
 
                             case Message.LIST_SALONS:
-                                System.out.println("__server__ envoi liste salons");
+                                 System.out.println("__server__ envoi liste salons");
                                 // for(Salon connex : serv.getListServers())
-                                System.out.println("__server__ " + listeSalons);
-                                outputClient.writeObject(new Message(Message.LIST_SALONS, listeSalons));
-                                break;
+                                System.out.println("__server__ " + this.serv.getSalons());
+                                outputClient.writeObject(new Message(Message.LIST_SALONS, this.serv.getSalons()));
 
                             case Message.CREATION_SALON:
+                                
                                 this.estHote = true;
                                 break;
                             default:
