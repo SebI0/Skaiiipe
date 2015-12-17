@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import services.InfosServeur;
 public class Server extends Thread implements Serializable{
     
     InfosServeur listServers;
+    private ArrayList<Salon> salons;
     int id;
     public static int incre = 1000;
     public Server() {
@@ -35,6 +37,7 @@ public class Server extends Thread implements Serializable{
     @Override
     public void run(){
         listServers = new InfosServeur();
+        this.salons = new ArrayList<Salon>();
         try {
             ServerSocket s2 = new ServerSocket();
             InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
@@ -46,7 +49,6 @@ public class Server extends Thread implements Serializable{
                 System.out.println("Server "+id+": Ajout d'une connexion Serveur");
                 listServers.add(ServerConnexion.getInfos());
                 System.out.println("Il y a actuellement: "+listServers.size()+" serveurs en ligne");
-                System.out.println("Liste des serveurs:"+this.getListServers().toString());
                 ServerConnexion.start();
             }
         } catch (IOException ex) {
@@ -57,6 +59,19 @@ public class Server extends Thread implements Serializable{
     public List<Salon> getListServers() {
         return listServers.get();
     }
+
+    public List<Salon> getSalons() {
+        return salons;
+    }
+
+    public void setSalons(ArrayList<Salon> salons) {
+        this.salons = salons;
+    }
+    
+    public void addSalon(Salon salon) {
+        this.salons.add(salon);
+    }
+    
     
     
 }
