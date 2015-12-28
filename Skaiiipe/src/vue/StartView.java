@@ -21,7 +21,6 @@ import server.ConnexionClient;
 import services.Message;
 import tppaint2014.EcouteurFenetre;
 import tppaint2014.Fenetre;
-import tppaint2014.TPPaint2014;
 
 /**
  *
@@ -30,9 +29,9 @@ import tppaint2014.TPPaint2014;
 public class StartView extends javax.swing.JFrame {
 
     private Socket s1;
-    ObjectInputStream inputStream;
-    ObjectOutputStream outputStream;
-    ArrayList<Salon> listeSalons;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+    private ArrayList<Salon> listeSalons;
 
     /**
      * Creates new form Start
@@ -47,7 +46,13 @@ public class StartView extends javax.swing.JFrame {
     private void connectionServeur() {
         try {
             this.s1 = new Socket();
-            InetSocketAddress sa = new InetSocketAddress("localhost", 60001);
+            
+            //connection via host (résolution dns)
+          //  InetSocketAddress sa = new InetSocketAddress(InetAddress.getByName("SEB-PC"), 6555);
+          
+          //connexion via ip directe
+            InetSocketAddress sa = new InetSocketAddress("192.168.33.1", 6555);
+            
             System.out.println("Try to connect");
             s1.connect(sa);
             System.out.println("Connexion Accepted");
@@ -361,7 +366,6 @@ public class StartView extends javax.swing.JFrame {
                 f.setVisible(true);
                 EcouteurFenetre ef = new EcouteurFenetre();
                 f.addWindowListener(ef);
-                
                }
 
         } catch (IOException ex) {

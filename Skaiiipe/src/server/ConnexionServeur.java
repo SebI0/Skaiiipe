@@ -69,10 +69,12 @@ public class ConnexionServeur extends Thread implements Serializable {
                                     case 1:
                                         System.out.println("L'utilisateur veut rejoindre un salon");
                                         outputClient.writeObject(new Message(Message.LIST_SALONS, "test"));
+                                        this.serv.updateListeSalons();
                                         break;
                                     case 0:
                                         System.out.println("L'utilisateur veut créer un salon");
                                         outputClient.writeObject(new Message(Message.CREATION_SALON, "id"));
+                                        this.serv.updateListeSalons();
                                         break;
                                 }
                                 break;
@@ -115,9 +117,11 @@ public class ConnexionServeur extends Thread implements Serializable {
                             case Message.MAJ_SALON:
                                 info.setNbUsers((int) msg.getData());
                                 System.out.println("UPDATE");
+                                this.serv.updateListeSalons();
                                 break;
                             case Message.FERMETURE_SALON:
                                 estHote = false;
+                                this.serv.updateListeSalons();
                                 break;
                         }
                     }
