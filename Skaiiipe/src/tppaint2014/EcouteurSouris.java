@@ -79,7 +79,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener{
     public void mousePressed(MouseEvent e) {
         xi = e.getX();
         yi = e.getY();
-        saF.bb.changerMessage("Dessin en cours");    
+        saF.bb.changerMessage("olol");    
         this.firstClic = true;
     }
 
@@ -164,9 +164,11 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener{
                     F = new Camion(a,b,c,d, g.getColor());
                     break;
             }
+            
+                System.out.println("LOL");
 
             this.saF.lesFormes.add(F);
-            saF.bb.changerMessage("Tout va bien");
+            saF.bb.changerMessage("Ta mère");
             }
             else
             {

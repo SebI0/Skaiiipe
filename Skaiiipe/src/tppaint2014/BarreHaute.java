@@ -8,6 +8,7 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
+import services.Message;
 
 
 
@@ -24,6 +25,8 @@ public class BarreHaute extends Panel implements ActionListener{
     
     public Button rotGauche;
     public Button rotDroite;
+    
+    public Button logout;
     
     public Fenetre saF;
     
@@ -60,6 +63,8 @@ public class BarreHaute extends Panel implements ActionListener{
         rotGauche = new Button("ROTATION GAUCHE");
         rotDroite = new Button("ROTATION DROITE");
         
+        logout = new Button("Deconnexion"); //logout bouton
+        
         rotGauche.addActionListener(this);
         rotDroite.addActionListener(this);
                 
@@ -70,6 +75,8 @@ public class BarreHaute extends Panel implements ActionListener{
         
         effaceFamille.addActionListener(this);
         effaceCouleur.addActionListener(this);
+        
+        logout.addActionListener(this);
         
         this.add(rotDroite);
         this.add(rotGauche);
@@ -237,7 +244,13 @@ public class BarreHaute extends Panel implements ActionListener{
 
                }
                saF.zg.repaint();
+        }else if (ae.getSource().equals(logout))
+        {
+            //envoi requete serveur de salons 
+            Message logoutMessage = new Message(Message.DECONNEXION, null);
         }
+        
+        
     }
 
   
