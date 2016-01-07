@@ -506,12 +506,14 @@ public class StartView extends javax.swing.JFrame {
             s1.connect(sa);
             System.out.println("Connexion Accepted");
             ConnexionClient ConnexionSock = new ConnexionClient(s1);
+            System.out.println("1");
             ConnexionSock.start();
-            
+            System.out.println("2");
             
             Fenetre f = new Fenetre(ConnexionSock);
+            System.out.println("3");
             f.setVisible(true);
-
+System.out.println("4");
             EcouteurFenetre ef = new EcouteurFenetre();
 
             f.addWindowListener(ef);
