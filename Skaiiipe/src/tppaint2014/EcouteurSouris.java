@@ -164,15 +164,15 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener{
                     F = new Camion(a,b,c,d, g.getColor());
                     break;
             }
-            
-                System.out.println("LOL");
-
+            this.saF.communication.sendForm(F);
             this.saF.lesFormes.add(F);
             saF.bb.changerMessage("Ta mère");
             }
             else
             {
+                
                 this.saF.lesFormes.add(F);
+                this.saF.communication.sendForm(F);
                 saF.EditEnCours=false;
             }
         }

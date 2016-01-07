@@ -34,9 +34,11 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
         public ConnexionClient connexionClient;
 
         public ArrayList<Forme> lesFormes;
-                
+        
+        public CommunicationClientHote communication;
+        
     public Fenetre(ConnexionClient c) {
-
+        
         lesFormes = new ArrayList<>(); //Ne pas oublier d'instacier l'array List
         this.connexionClient= c;
         this.setTitle("TP PAINT POO2");
@@ -62,7 +64,12 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
        // this.add(new Button("CENTER"), BorderLayout.CENTER);
         
         initMenuBarre();
-        
+        try{
+            communication = new CommunicationClientHote(c.getSocket());
+        }
+        catch(Exception e){
+            System.out.println("Une erreur de communication s'est produite");
+        }
     }
     
     private void initMenuBarre()
