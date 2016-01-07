@@ -8,6 +8,7 @@ package server;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -35,6 +38,7 @@ public class Server extends Thread implements Serializable {
     private InetAddress ip; //ip utilisée par le serveur de salons
     private int port; //port utilisé par le serveur de salons
     private JTree treeSalons; //affichage de la liste des salons
+    private JList listUsers;
 
     public static int incre = 1000;
 
@@ -43,10 +47,11 @@ public class Server extends Thread implements Serializable {
         incre++;
     }
 
-    public Server(InetAddress ip, int port, JTree treeSalons) {
+    public Server(InetAddress ip, int port, JTree treeSalons, JList listUsers) {
         this.ip = ip;
         this.port = port;
         this.treeSalons = treeSalons;
+        this.listUsers = listUsers;
     }
 
     @Override
@@ -59,19 +64,21 @@ public class Server extends Thread implements Serializable {
 
             InetSocketAddress sa = new InetSocketAddress(this.ip, this.port);
             s2.bind(sa);
-            System.out.println("Serveur de salons crée !");
-            System.out.println("IP : " + InetAddress.getLocalHost() + " port : " + this.port);
+            System.out.println("__serveur__ Serveur de salons crée !");
+            System.out.println("__serveur__ IP : " + InetAddress.getLocalHost() + " port : " + this.port);
+            
+            
             updateListeSalons();
             while (!Thread.currentThread().isInterrupted()) {
                 Socket s = s2.accept();
                 ConnexionServeur ServerConnexion = new ConnexionServeur(s, this);
-                System.out.println("Server " + id + ": Ajout d'une connexion Serveur");
+                System.out.println("__serveur__ Server " + id + ": Ajout d'une connexion Serveur");
                 //listServers.add(ServerConnexion.getInfos());
-                System.out.println("Il y a actuellement: " + listServers.size() + " serveurs en ligne");
+                System.out.println("__serveur__ Il y a actuellement: " + listServers.size() + " serveurs en ligne");
                 ServerConnexion.start();
             }
         } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }
 
@@ -98,15 +105,23 @@ public class Server extends Thread implements Serializable {
         ArrayList<String> listeCategories = new ArrayList<>();
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Salons");
 
-        if (this.listServers.get().size() == 0) {
+        if (this.listServers.get().isEmpty()) {
             DefaultTreeModel dtm = new DefaultTreeModel(racine);
             DefaultMutableTreeNode salon = new DefaultMutableTreeNode("Aucun salon");
             racine.add(salon);
             this.treeSalons.setModel(dtm);
-            System.out.println("Aucun salon");
+            System.out.println("__serveur__ Aucun salon");
         } else {
             for (Salon s : this.listServers.get()) {
-                System.out.println(s);
+                DefaultComboBoxModel model = new DefaultComboBoxModel();
+                System.out.println(s.getUsers());
+                if (!s.getUsers().isEmpty())
+                    for (String user : s.getUsers())
+                        model.addElement(user);
+                else 
+                    model.addElement("Aucun utilisateur");
+                    this.listUsers.setModel(model);
+                
                 int pos = listeCategories.indexOf(s.getCatégorie());
                 if (pos == -1) {
                     DefaultMutableTreeNode categorie = new DefaultMutableTreeNode(s.getCatégorie());

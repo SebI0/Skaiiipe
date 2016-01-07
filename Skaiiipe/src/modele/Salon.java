@@ -6,6 +6,7 @@
 package modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Salon implements Serializable{
     private String nom;
     private String catégorie;
     private int nbUsers;
+    private ArrayList<String> users;
 
     public Salon(String ip, int port, String nom, String catégorie) {
         this.ip = ip;
@@ -25,6 +27,7 @@ public class Salon implements Serializable{
         this.nom = nom;
         this.catégorie = catégorie;
         this.nbUsers = 1;
+        this.users = new ArrayList<String>();
     }
     
     
@@ -69,6 +72,19 @@ public class Salon implements Serializable{
         this.nbUsers = nbUsers;
     }
 
+    public ArrayList<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<String> users) {
+        this.users = users;
+    }
+
+    public void addUser(String username)
+    {
+        this.users.add(username);
+        
+    }
     @Override
     public String toString() {
         return nom;

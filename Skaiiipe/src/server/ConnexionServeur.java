@@ -115,7 +115,10 @@ public class ConnexionServeur extends Thread implements Serializable {
                         Message msg = (Message) InputClient.readObject();
                         switch (msg.getType()) {
                             case Message.MAJ_SALON:
-                                info.setNbUsers((int) msg.getData());
+                              //  info.setNbUsers((int) msg.getData());
+                                
+                                System.out.println(msg.getData());
+                                info.addUser((String) msg.getData());
                                 System.out.println("UPDATE");
                                 this.serv.updateListeSalons();
                                 break;

@@ -29,13 +29,18 @@ public class Host extends Thread{
     int id;
     private int id_salon;
     public static int incre = 1000;
+    
+    private ServerSocket serveurSocket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    public Host(ObjectInputStream inputStr,ObjectOutputStream outputStr) {
+    
+    
+    public Host(ServerSocket serverSocket, ObjectInputStream inputStr,ObjectOutputStream outputStr) {
         id= incre;
         incre++;
         this.inputStream = inputStr;
         this.outputStream = outputStr;
+        this.serveurSocket = serverSocket;
     }
 
     public int getId_salon() {
@@ -50,18 +55,19 @@ public class Host extends Thread{
     
     @Override
     public void run(){
+        //écouteur du client maitre
         try {
             ListClient = new ArrayList<>();
-            ServerSocket s2 = new ServerSocket();
-            InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
-            s2.bind(sa);
+         //   ServerSocket s2 = new ServerSocket();
+         //   InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
+         //   s2.bind(sa);
             System.out.println("SOCKET READY");
             while(!Thread.currentThread().isInterrupted()){
-                Socket s = s2.accept();
+                Socket s = this.serveurSocket.accept();
                 ConnexionClient ConnexionCli = new ConnexionClient(s);
                 System.out.println("Client "+id+": Ajout d'un client");
                 ListClient.add(ConnexionCli);
-                outputStream.writeObject(new Message(Message.MAJ_SALON, ListClient.size()));
+                outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
                 System.out.println("Il y a actuellement: "+ListClient.size()+" users en ligne");
                 ConnexionCli.start();
             }
