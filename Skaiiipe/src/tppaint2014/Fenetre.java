@@ -40,7 +40,10 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
     public Fenetre(ConnexionClient c) {
         
         lesFormes = new ArrayList<>(); //Ne pas oublier d'instacier l'array List
+        c.SetFenetre(this);
         this.connexionClient= c;
+      //  this.connexionClient.start();
+//        this.connexionClient.SetFenetre(this);
         this.setTitle("TP PAINT POO2");
         this.setSize(800,600);
         this.setLocationRelativeTo(null); //centrer

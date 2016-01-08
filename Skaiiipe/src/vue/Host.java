@@ -64,12 +64,12 @@ public class Host extends Thread{
             System.out.println("SOCKET READY");
             while(!Thread.currentThread().isInterrupted()){
                 Socket s = this.serveurSocket.accept();
-             /*   ConnexionClient ConnexionCli = new ConnexionClient(s);
+                ConnexionClient ConnexionCli = new ConnexionClient(s);
                 System.out.println("Client "+id+": Ajout d'un client");
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
                 System.out.println("Il y a actuellement: "+ListClient.size()+" users en ligne");
-                ConnexionCli.start();*/
+                ConnexionCli.start();
             }
         } catch (IOException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);

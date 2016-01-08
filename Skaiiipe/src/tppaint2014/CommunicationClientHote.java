@@ -31,7 +31,7 @@ public class CommunicationClientHote {
     
     
     public boolean sendForm(Forme F){
-        Message m = new Message(Message.FORME, 18);    
+        Message m = new Message(Message.FORME, F);    
         try {
             outputStream.writeObject(m);
             System.out.println("Message envoyé");

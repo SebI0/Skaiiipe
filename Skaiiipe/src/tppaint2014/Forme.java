@@ -27,4 +27,10 @@ public abstract class Forme implements Serializable {
     public abstract void seDessiner(Graphics g, int remplir);
     public abstract void remplir(int col);
 
+    @Override
+    public String toString() {
+        return "Forme{" + "a=" + a + ", b=" + b + ", c=" + c + ", d=" + d + ", col=" + col + ", plein=" + plein + '}';
+    }
+
+    
 }
