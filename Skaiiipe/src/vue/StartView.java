@@ -455,15 +455,21 @@ public class StartView extends javax.swing.JFrame {
         try {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
             if (selectedNode.isLeaf() == true) {
-                Salon salonSelected = (Salon) selectedNode.getUserObject();
+                Salon salonSelected = (Salon) selectedNode.getUserObject(); //récupération du salon ==> ip et port du client maitre
                 this.s1 = new Socket();
                 InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), salonSelected.getPort());
-                System.out.println("Try to connect");
+                System.out.println("Connexion au client maitre");
                 s1.connect(sa);
-                System.out.println("Connexion Accepted");
-                ConnexionClient ConnexionSock = new ConnexionClient(s1);
+                System.out.println("Connexion au client maitre acceptée");
+                
+                   Fenetre f = new Fenetre();
+                ConnexionClient ConnexionSock = new ConnexionClient(s1, f); //socket d'écoute ==> on écoute ce que le client maitre envoie
+                f.setConnection(ConnexionSock);
                 ConnexionSock.start();
-                Fenetre f = new Fenetre(ConnexionSock);
+                
+                
+             
+               
                 f.setVisible(true);
                 EcouteurFenetre ef = new EcouteurFenetre();
                 f.addWindowListener(ef);
@@ -478,7 +484,7 @@ public class StartView extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //création salon
         try {
-            ServerSocket s = new ServerSocket(0);
+            ServerSocket s = new ServerSocket(0); //socketserveur du client maitre
             
             System.out.println("Demande création de salon");
             
@@ -494,22 +500,32 @@ public class StartView extends javax.swing.JFrame {
             
             Message mesg = (Message) msg;
             int idsalon = (int) mesg.getData();
-            Host hote = new Host(s, inputStream, outputStream);
-            hote.setId_salon(idsalon);
-            hote.start();
+            
+              
 
             
             //le maitre se connecte à lui même
             Socket s1 = new Socket();
           //  ServerSocket s1 = new ServerSocket(0);
-            InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort());
+            InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getHostAddress(), s.getLocalPort()); //
             s1.connect(sa);
             System.out.println("Connexion Accepted");
-            ConnexionClient ConnexionSock = new ConnexionClient(s1);
+            
+                      Fenetre f = new Fenetre();
+                    
+            ConnexionClient ConnexionSock = new ConnexionClient(s1, f);
+              f.setConnection(ConnexionSock);
+              ConnexionSock.start();
+      
+      
+            Host hote = new Host(s, inputStream, outputStream, f );
+            hote.setId_salon(idsalon);
+            hote.start();
+            
+            
             System.out.println("1");
-            Fenetre f = new Fenetre(ConnexionSock);
             ConnexionSock.SetFenetre(f);
-            ConnexionSock.start();
+//            ConnexionSock.start();
             System.out.println("2");
             
             

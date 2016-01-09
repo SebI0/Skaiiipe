@@ -41,8 +41,9 @@ public class ConnexionClient extends Thread{
 
     }
     
-    public ConnexionClient(java.net.Socket socketServer) throws IOException {
+    public ConnexionClient(java.net.Socket socketServer, Fenetre f) throws IOException {
         
+        this.fen = f;
         this.socketServer = socketServer;
         id = incre;
         incre++;

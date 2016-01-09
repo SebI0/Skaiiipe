@@ -37,11 +37,20 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
         
         public CommunicationClientHote communication;
         
-    public Fenetre(ConnexionClient c) {
+        public void setConnection(ConnexionClient c)
+        {
+            this.connexionClient = c;
+              try{
+            communication = new CommunicationClientHote(c.getSocket());
+        }
+        catch(Exception e){
+            System.out.println("Une erreur de communication s'est produite");
+        }
+        }
+    public Fenetre() {
         
         lesFormes = new ArrayList<>(); //Ne pas oublier d'instacier l'array List
-        c.SetFenetre(this);
-        this.connexionClient= c;
+
       //  this.connexionClient.start();
 //        this.connexionClient.SetFenetre(this);
         this.setTitle("TP PAINT POO2");
@@ -67,12 +76,7 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
        // this.add(new Button("CENTER"), BorderLayout.CENTER);
         
         initMenuBarre();
-        try{
-            communication = new CommunicationClientHote(c.getSocket());
-        }
-        catch(Exception e){
-            System.out.println("Une erreur de communication s'est produite");
-        }
+      
     }
     
     private void initMenuBarre()

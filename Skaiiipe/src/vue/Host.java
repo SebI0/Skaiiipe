@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import modele.Salon;
 import server.ConnexionClient;
 import services.Message;
+import tppaint2014.Fenetre;
 
 /**
  *
@@ -34,13 +35,17 @@ public class Host extends Thread{
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     
+    private Fenetre f;
     
-    public Host(ServerSocket serverSocket, ObjectInputStream inputStr,ObjectOutputStream outputStr) {
+    
+    public Host(ServerSocket serverSocket, ObjectInputStream inputStr,ObjectOutputStream outputStr, Fenetre f) {
         id= incre;
         incre++;
         this.inputStream = inputStr;
         this.outputStream = outputStr;
         this.serveurSocket = serverSocket;
+        
+        this.f = f;
     }
 
     public int getId_salon() {
@@ -64,7 +69,7 @@ public class Host extends Thread{
             System.out.println("SOCKET READY");
             while(!Thread.currentThread().isInterrupted()){
                 Socket s = this.serveurSocket.accept();
-                ConnexionClient ConnexionCli = new ConnexionClient(s);
+                ConnexionClient ConnexionCli = new ConnexionClient(s, f);
                 System.out.println("Client "+id+": Ajout d'un client");
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
