@@ -33,7 +33,7 @@ public class Host extends Thread{
     
     private ServerSocket serveurSocket;
     private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
+    public ObjectOutputStream outputStream;
     
     private Fenetre f;
     
@@ -69,7 +69,7 @@ public class Host extends Thread{
             System.out.println("SOCKET READY");
             while(!Thread.currentThread().isInterrupted()){
                 Socket s = this.serveurSocket.accept();
-                ConnexionClient ConnexionCli = new ConnexionClient(s, f);
+                ConnexionClient ConnexionCli = new ConnexionClient(s, f,this);
                 System.out.println("Client "+id+": Ajout d'un client");
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));

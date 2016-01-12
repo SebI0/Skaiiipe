@@ -83,11 +83,28 @@ public class Server extends Thread implements Serializable {
     }
 
     public List<Salon> getListServers() {
-        return listServers.get();
+         List<Salon>  SalonActifs = new ArrayList<>();
+        for(Salon elt :listServers.get() ){
+            System.out.println(elt.getNom()+":"+ elt.active);
+            if(elt.active){
+                
+                    SalonActifs.add(elt);
+            }
+        }
+        return SalonActifs;
+        
     }
 
     public List<Salon> getSalons() {
-        return salons;
+                 List<Salon>  SalonActifs = new ArrayList<>();
+        for(Salon elt :salons ){
+            System.out.println(elt.getNom()+":"+ elt.active);
+            if(elt.active){
+                
+                    SalonActifs.add(elt);
+            }
+        }
+        return SalonActifs;
     }
 
     public void setSalons(ArrayList<Salon> salons) {

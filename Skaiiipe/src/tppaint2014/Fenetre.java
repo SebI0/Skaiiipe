@@ -47,7 +47,13 @@ public class Fenetre extends Frame{ //Frame <=> Objet graphique JAVA
             System.out.println("Une erreur de communication s'est produite");
         }
         }
-    public Fenetre() {
+        public boolean isHost;
+    public Fenetre(boolean host) {
+        
+        isHost=host;
+        EcouteurFenetre ef = new EcouteurFenetre(this);
+        
+        this.addWindowListener(ef);
         
         lesFormes = new ArrayList<>(); //Ne pas oublier d'instacier l'array List
 

@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,13 +39,20 @@ public class StartView extends javax.swing.JFrame {
     /**
      * Creates new form Start
      */
-    public StartView() {
+    public StartView() throws UnknownHostException {
         initComponents();
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Non connecté");
         DefaultTreeModel dtm = new DefaultTreeModel(racine);
         DefaultMutableTreeNode salon = new DefaultMutableTreeNode("Aucun salon");
         racine.add(salon);
         jTree1.setModel(dtm);
+        
+        
+        //debug
+                    this.jTextField4.setText(InetAddress.getLocalHost().getHostAddress());
+                    this.jTextField5.setText("6555");
+        
+        
         //    connectionServeur();
         //  listerSalons();
         // listerCategorieSalon();
@@ -224,16 +232,6 @@ public class StartView extends javax.swing.JFrame {
             }
         });
 
-        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonCategoryTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonIpTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(salonUsersTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(connectionBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
@@ -285,6 +283,15 @@ public class StartView extends javax.swing.JFrame {
                 .addComponent(connectionBtn)
                 .addGap(17, 17, 17))
         );
+        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonNameTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonCategoryTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonIpTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(salonUsersTxt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(connectionBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jButton2.setText("Créer salon");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +335,12 @@ public class StartView extends javax.swing.JFrame {
             }
         });
 
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
         jLabel11.setText("Port : ");
         jLabel11.setToolTipText("");
 
@@ -351,19 +364,16 @@ public class StartView extends javax.swing.JFrame {
                         .addGap(0, 25, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(19, 19, 19)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel7))
-                                        .addGap(25, 25, 25)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(19, 19, 19)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel7))
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(7, 7, 7)
                                 .addComponent(jLabel9)
@@ -462,8 +472,8 @@ public class StartView extends javax.swing.JFrame {
                 s1.connect(sa);
                 System.out.println("Connexion au client maitre acceptée");
                 
-                   Fenetre f = new Fenetre();
-                ConnexionClient ConnexionSock = new ConnexionClient(s1, f); //socket d'écoute ==> on écoute ce que le client maitre envoie
+                   Fenetre f = new Fenetre(false);
+                ConnexionClient ConnexionSock = new ConnexionClient(s1, f,null); //socket d'écoute ==> on écoute ce que le client maitre envoie
                 f.setConnection(ConnexionSock);
                 ConnexionSock.start();
                 
@@ -471,8 +481,8 @@ public class StartView extends javax.swing.JFrame {
              
                
                 f.setVisible(true);
-                EcouteurFenetre ef = new EcouteurFenetre();
-                f.addWindowListener(ef);
+               // EcouteurFenetre ef = new EcouteurFenetre();
+                //f.addWindowListener(ef);
             }
 
         } catch (IOException ex) {
@@ -511,9 +521,9 @@ public class StartView extends javax.swing.JFrame {
             s1.connect(sa);
             System.out.println("Connexion Accepted");
             
-                      Fenetre f = new Fenetre();
+                      Fenetre f = new Fenetre(true);
                     
-            ConnexionClient ConnexionSock = new ConnexionClient(s1, f);
+            ConnexionClient ConnexionSock = new ConnexionClient(s1, f,null);
               f.setConnection(ConnexionSock);
               ConnexionSock.start();
       
@@ -532,9 +542,9 @@ public class StartView extends javax.swing.JFrame {
             System.out.println("3");
             f.setVisible(true);
             System.out.println("4");
-            EcouteurFenetre ef = new EcouteurFenetre();
+            //EcouteurFenetre ef = new EcouteurFenetre();
 
-            f.addWindowListener(ef);
+           // f.addWindowListener(ef);
 
         } catch (IOException ex) {
             Logger.getLogger(StartView.class
@@ -563,6 +573,10 @@ public class StartView extends javax.swing.JFrame {
         // TODO add your handling code here:
         jLabel10.setText("IP du serveur de salons");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -600,7 +614,11 @@ public class StartView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartView().setVisible(true);
+                try {
+                    new StartView().setVisible(true);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -20,6 +20,7 @@ public class Salon implements Serializable{
     private String catégorie;
     private int nbUsers;
     private ArrayList<String> users;
+    public boolean active;
 
     public Salon(String ip, int port, String nom, String catégorie) {
         this.ip = ip;
@@ -28,6 +29,7 @@ public class Salon implements Serializable{
         this.catégorie = catégorie;
         this.nbUsers = 1;
         this.users = new ArrayList<String>();
+        this.active=true;
     }
     
     

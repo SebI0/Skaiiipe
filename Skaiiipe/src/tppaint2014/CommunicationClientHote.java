@@ -40,6 +40,17 @@ public class CommunicationClientHote {
             return false;
         }
     }
+
+    public boolean shutdown() {
+        System.out.println("FERMETURE DU SALON");
+        try {
+            outputStream.writeObject(new Message(Message.FERMETURE_SALON, ""));
+            System.out.println("Message envoyé");
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
     
     
 }

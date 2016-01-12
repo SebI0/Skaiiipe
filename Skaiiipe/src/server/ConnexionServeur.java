@@ -124,6 +124,8 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 break;
                             case Message.FERMETURE_SALON:
                                 estHote = false;
+                                System.out.println("Salon fermé!");
+                                info.active=false;
                                 this.serv.updateListeSalons();
                                 break;
                         }
