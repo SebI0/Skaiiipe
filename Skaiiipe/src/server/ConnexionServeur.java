@@ -35,7 +35,7 @@ public class ConnexionServeur extends Thread implements Serializable {
         id = incre;
         incre++;
         this.serv = s;
-        info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(), "Serveur " + id, "cate");
+      //  info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(), "Salon "+id, "cate");
         estHote = false;
     }
 
@@ -101,6 +101,7 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 
                                 this.estHote = true;
                                 serv.listServers.add((Salon) m.getData());
+                                info=(Salon) m.getData();
                                 break;
                             default:
                                 System.out.println("error");
@@ -124,8 +125,10 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 break;
                             case Message.FERMETURE_SALON:
                                 estHote = false;
+                                System.out.println(info);
                                 System.out.println("Salon fermé!");
-                                info.active=false;
+ //                               info.active=false;
+                                this.serv.listServers.remove(info);
                                 this.serv.updateListeSalons();
                                 break;
                         }

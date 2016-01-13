@@ -30,11 +30,9 @@ public class Host extends Thread{
     int id;
     private int id_salon;
     public static int incre = 1000;
-    
     private ServerSocket serveurSocket;
     private ObjectInputStream inputStream;
     public ObjectOutputStream outputStream;
-    
     private Fenetre f;
     
     

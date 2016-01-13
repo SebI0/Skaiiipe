@@ -449,7 +449,8 @@ public class StartView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTree1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseReleased
-        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+        try{
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
         if (selectedNode.isLeaf() == true) {
             Salon salonSelected = (Salon) selectedNode.getUserObject();
             salonNameTxt.setText(salonSelected.getNom());
@@ -457,6 +458,10 @@ public class StartView extends javax.swing.JFrame {
             salonIpTxt.setText(salonSelected.getIp());
             salonUsersTxt.setText(String.valueOf(salonSelected.getNbUsers()));
 
+        }
+        }
+        catch(Exception e){
+           // System.out.println("");
         }
     }//GEN-LAST:event_jTree1MouseReleased
 
