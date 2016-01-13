@@ -18,6 +18,7 @@ public class Message implements Serializable{
     public static final int MAJ_SALON = 13;
     public static final int FERMETURE_SALON = 14;
     public static final int DECONNEXION = 15;
+    public static final int GOMME = 16;
     public static final int ERROR = -999;
     public static final int INIT = 0;
     

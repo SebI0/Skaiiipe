@@ -166,7 +166,6 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener{
             }
             this.saF.communication.sendForm(F);
             this.saF.lesFormes.add(F);
-            saF.bb.changerMessage("Ta mère");
             }
             else
             {
@@ -212,6 +211,8 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener{
                 g.drawOval(xf,yf,10,10);
                 g.fillOval(xf,yf,10,10);
                 saF.lesFormes.add(F);
+                this.saF.communication.sendGomme(F);
+                
             }   
 
             else if (this.firstClic && saF.COLORIAGE_M23 == 0) //dessin temps reel

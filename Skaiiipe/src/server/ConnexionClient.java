@@ -69,16 +69,22 @@ public class ConnexionClient extends Thread {
                 Message msg = (Message) InputClient.readObject();
                 System.out.println("ConnexionServeur " + id + ": bip ");
                 System.out.println("Message reçu: " + msg.getData().toString());
-
+                Forme receivedForme = (Forme) msg.getData();
                 switch (msg.getType()) {
                     case Message.FORME:
-                        Forme receivedData = (Forme) msg.getData();
+                        
                         System.out.println(fen);
-                        fen.lesFormes.add(receivedData);
+                        fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();
                         break;
                     case Message.FERMETURE_SALON:
                         hote.outputStream.writeObject(new Message(Message.FERMETURE_SALON, hote.getId_salon()));
+                        break;
+                        
+                    case Message.GOMME:
+                        fen.lesFormes.add(receivedForme);
+                        fen.zg.repaint();
+                        System.out.println(receivedForme);
                         break;
                 }
 

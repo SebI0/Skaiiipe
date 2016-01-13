@@ -40,6 +40,17 @@ public class CommunicationClientHote {
             return false;
         }
     }
+    
+        public boolean sendGomme(Forme F){
+        Message m = new Message(Message.GOMME, F);    
+        try {
+            outputStream.writeObject(m);
+            System.out.println("Message envoyé");
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
 
     public boolean shutdown() {
         System.out.println("FERMETURE DU SALON");
