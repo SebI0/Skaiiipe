@@ -40,7 +40,7 @@ public class InfosServeur implements Serializable {
 
     public void remove(Salon elt) {
 
-                System.out.println("Liste: " + listServers);
+        System.out.println("Liste: " + listServers);
         Iterator<Salon> iterator = listServers.iterator();
         int val=0;
         List<Salon> listTemp = new ArrayList<>();
@@ -63,7 +63,7 @@ public class InfosServeur implements Serializable {
     @Override
     public String toString() {
         String s = "";
-        for (Salon serv : listServers) {
+        for(Salon serv : listServers) {
             s += "\n" + serv.toString();
         }
         return s;

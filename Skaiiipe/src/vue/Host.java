@@ -20,13 +20,25 @@ import services.Message;
 import tppaint2014.Fenetre;
 
 /**
+ * Thread permettant aux salons d'écouter les connexions clients.
  *
  * @author Elie
  */
-public class Host extends Thread{
-    
-    private ArrayList<ConnexionClient>ListClient;
-    private ArrayList<Salon> salons;
+public class Host extends Thread {
+
+    /**
+     * @param ListClient Liste de ConnexionClient, pour gerer les différents
+     * utilisateurs connectés
+     * @see ConnexionClient
+     * @param id_salon Identifiant numérique du salon
+     * @param incre Valeur numérique servant à l'attribution des identifiants
+     * @param serveurSocket Socket d'écoute du serveur principal
+     * @param inputStream Flux de lecture du serveur principal vers l'hote
+     * @param outputStream Flux d'écriture de l'hote vers serveur princpal
+     * @param f Fenetre de peinture associé au client qui héberge le salon.
+     * @see Fenetre
+     */
+    private ArrayList<ConnexionClient> ListClient;
     int id;
     private int id_salon;
     public static int incre = 1000;
@@ -34,49 +46,64 @@ public class Host extends Thread{
     private ObjectInputStream inputStream;
     public ObjectOutputStream outputStream;
     private Fenetre f;
-    
-    
-    public Host(ServerSocket serverSocket, ObjectInputStream inputStr,ObjectOutputStream outputStr, Fenetre f) {
-        id= incre;
+
+    /**
+     * Constructeur d'un Hôte
+     *
+     * @param serverSocket Socket d'écoute du serveur principal 
+     * @param inputStr Flux de lecture du serveur principal vers l'hote
+     * @param outputStr Flux d'écriture de l'hote vers serveur princpal
+     * @param f Passage de la fenêtre associé au client hôte
+     */
+    public Host(ServerSocket serverSocket, ObjectInputStream inputStr, ObjectOutputStream outputStr, Fenetre f) {
+        id = incre;
         incre++;
         this.inputStream = inputStr;
         this.outputStream = outputStr;
         this.serveurSocket = serverSocket;
-        
         this.f = f;
     }
 
+    /**
+     * Getter de l'id du salon associé à l'hôte
+     * @return id_salon identifiant numérique du salon
+     */
     public int getId_salon() {
         return id_salon;
     }
 
+    /**
+     * Setter de l'id du salon associé à l'hôte
+     * @param id_salon identifiant numérique du salon que l'on souhaite attribuer
+     */
     public void setId_salon(int id_salon) {
         this.id_salon = id_salon;
     }
-    
-    
-    
+
+    /**
+     * Définition du fonctionnement du thread.
+     * On commence par créer une liste dans laquelle on y mettra les différents clients.
+     * Ensuite, on se met à l'écoute du réseau pour détecter lorsqu'un client souhaite
+     * se connecter au salon, dès lors qu'il y a une connexion on l'enregistre, on lui 
+     * attribue un thread et on l'ajoute dans la liste des utilisateurs.
+     */
     @Override
-    public void run(){
+    public void run() {
         //écouteur du client maitre
         try {
+            //Création d'une liste
             ListClient = new ArrayList<>();
-         //   ServerSocket s2 = new ServerSocket();
-         //   InetSocketAddress sa = new InetSocketAddress("localhost", 60002);
-         //   s2.bind(sa);
-            System.out.println("SOCKET READY");
-            while(!Thread.currentThread().isInterrupted()){
+            
+            while (!Thread.currentThread().isInterrupted()) {
                 Socket s = this.serveurSocket.accept();
-                ConnexionClient ConnexionCli = new ConnexionClient(s, f,this);
-                System.out.println("Client "+id+": Ajout d'un client");
+                ConnexionClient ConnexionCli = new ConnexionClient(s, f, this);
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
-                System.out.println("Il y a actuellement: "+ListClient.size()+" users en ligne");
                 ConnexionCli.start();
             }
         } catch (IOException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

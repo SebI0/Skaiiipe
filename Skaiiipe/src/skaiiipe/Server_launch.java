@@ -15,23 +15,27 @@ import java.net.UnknownHostException;
 public class Server_launch extends javax.swing.JFrame {
 
     /**
-     * Creates new form Server_launch
+     * Création d'un serveur qui centralise toutes les salons
+     * Le port est réglé sur le 6555.
      */
     public Server_launch() {
+        //Initialisation des composants
         initComponents();
         
-        
+        //Définitions de variables
         InetAddress ipServeur;
         int port = 6555;
         
         try {
-            //ip locale du serveur
+            //Récupération de l'ip locale du serveur
             ipServeur = InetAddress.getLocalHost();
             server.Server serveur = new server.Server(ipServeur, port, this.jTree2, this.jList1); //jtree2 est la liste des salons disponibles
             
             //lancement du serveur de salons
             serveur.start();
             
+            //Remplissage des éléments graphiques avec les informations du serveur:
+            //Adresse, nom et port.
             this.jTextField1.setText(ipServeur.getHostAddress());
             this.jTextField3.setText(ipServeur.getHostName());
             this.jTextField2.setText(String.valueOf(port));
@@ -153,6 +157,7 @@ public class Server_launch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Programme principale permetant le lancement du serveur
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -179,7 +184,7 @@ public class Server_launch extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Crée et affiche la fenetre */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Server_launch().setVisible(true);

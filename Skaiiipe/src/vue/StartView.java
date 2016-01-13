@@ -26,55 +26,67 @@ import tppaint2014.EcouteurFenetre;
 import tppaint2014.Fenetre;
 
 /**
+ * Classe principale de l'application client.
  *
  * @author Seb
  */
 public class StartView extends javax.swing.JFrame {
 
+    /**
+     * @param s1 Socket utilisée avec le client pour communiquer avec le serveur
+     * principal
+     * @param inputStr Flux de lecture du serveur principal vers le client
+     * @param outputStr Flux d'écriture du client vers serveur princpal
+     * @param listeSalons Liste de Salon comportants les différents salons que
+     * l'utilisateur peut rejoindre
+     * @see Salon
+     */
     private Socket s1;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private ArrayList<Salon> listeSalons;
 
     /**
-     * Creates new form Start
+     * Constructeur de l'application
+     *
+     * @throws java.net.UnknownHostException En cas de problème de résolution de
+     * l'hote
      */
     public StartView() throws UnknownHostException {
+        //Initialisation des compostants graphiques
         initComponents();
+        //Initialisation du jTree (navigations pour les salons)
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Non connecté");
         DefaultTreeModel dtm = new DefaultTreeModel(racine);
         DefaultMutableTreeNode salon = new DefaultMutableTreeNode("Aucun salon");
         racine.add(salon);
         jTree1.setModel(dtm);
-        
-        
+
         //debug
-                    this.jTextField4.setText(InetAddress.getLocalHost().getHostAddress());
-                    this.jTextField5.setText("6555");
-        
-        
-        //    connectionServeur();
-        //  listerSalons();
-        // listerCategorieSalon();
+        this.jTextField4.setText(InetAddress.getLocalHost().getHostAddress());
+        this.jTextField5.setText("6555");
     }
 
+    /**
+     * Fonction de connexion au serveur principal Un controle est réalisé sur la
+     * valeur des textbox pour l'IP et le port
+     */
     private void connectionServeur() {
 
-
         boolean valid = true;
-        if (jTextField4.getText().isEmpty() ) {
+        if (jTextField4.getText().isEmpty()) {
             valid = false;
-           JOptionPane.showMessageDialog(this, "L'ip ne peut être nulle", "Erreur" ,JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "L'ip ne peut être nulle", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (jTextField5.getText().isEmpty())
-        {
+        if (jTextField5.getText().isEmpty()) {
             valid = false;
             JOptionPane.showMessageDialog(this, "Le port ne peut être nul", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
 
         if (valid) {
             try {
+
                 InetSocketAddress sa;
                 this.s1 = new Socket();
                 if (jRadioButton2.isSelected()) {
@@ -85,13 +97,14 @@ public class StartView extends javax.swing.JFrame {
                     sa = new InetSocketAddress(jTextField4.getText(), Integer.valueOf(jTextField5.getText()));
                 }
 
-                System.out.println("Try to connect");
+                //Connexion
                 s1.connect(sa, 5000);
 
-                System.out.println("Connexion Accepted");
+                //Initialisation des flux d'écriture
                 outputStream = new ObjectOutputStream(s1.getOutputStream());
                 Message demandeSalons = new Message(Message.LIST_SALONS, 0);
 
+                //Demande de récupération de la liste des salons
                 outputStream.writeObject(demandeSalons);
                 inputStream = new ObjectInputStream(s1.getInputStream());
 
@@ -101,6 +114,10 @@ public class StartView extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Permet de récuperer les listes des catégories et de les placer dans la
+     * combobox
+     */
     public void listerCategorieSalon() {
         jComboBox1.removeAllItems();
 
@@ -110,11 +127,14 @@ public class StartView extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Fonction de reception du message du serveur au client lui indicant les
+     * salons disponible. cette fonction va se charger ensuite de les mettre
+     * dans le jTree à l'affichage
+     */
     public void listerSalons() {
         int vrai = 1;
         try {
-
-            System.out.println("__client__ reception données");
 
             Message salonsMessage = (Message) inputStream.readObject();
             while (salonsMessage != null) {
@@ -208,6 +228,12 @@ public class StartView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTree1);
 
         jLabel2.setText("Pseudo");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Nombre d'utilisateurs");
 
@@ -448,115 +474,125 @@ public class StartView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Fonction de gestions de clics dans le jTree pour afficher ou non les
+     * informations du salons dans la barre de droite
+     *
+     * @param evt événement provoquant l'appel de la fonction
+     */
     private void jTree1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseReleased
-        try{
-            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
-        if (selectedNode.isLeaf() == true) {
-            Salon salonSelected = (Salon) selectedNode.getUserObject();
-            salonNameTxt.setText(salonSelected.getNom());
-            salonCategoryTxt.setText(salonSelected.getCatégorie());
-            salonIpTxt.setText(salonSelected.getIp());
-            salonUsersTxt.setText(String.valueOf(salonSelected.getNbUsers()));
-
-        }
-        }
-        catch(Exception e){
-           // System.out.println("");
-        }
-    }//GEN-LAST:event_jTree1MouseReleased
-
-    private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
-        /*Connexion au client maitre*/
         try {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
             if (selectedNode.isLeaf() == true) {
-                Salon salonSelected = (Salon) selectedNode.getUserObject(); //récupération du salon ==> ip et port du client maitre
-                this.s1 = new Socket();
-                InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), salonSelected.getPort());
-                System.out.println("Connexion au client maitre");
-                s1.connect(sa);
-                System.out.println("Connexion au client maitre acceptée");
-                
-                   Fenetre f = new Fenetre(false);
-                ConnexionClient ConnexionSock = new ConnexionClient(s1, f,null); //socket d'écoute ==> on écoute ce que le client maitre envoie
-                f.setConnection(ConnexionSock);
-                ConnexionSock.start();
-                
-                
-             
-               
-                f.setVisible(true);
-               // EcouteurFenetre ef = new EcouteurFenetre();
-                //f.addWindowListener(ef);
-            }
+                Salon salonSelected = (Salon) selectedNode.getUserObject();
+                salonNameTxt.setText(salonSelected.getNom());
+                salonCategoryTxt.setText(salonSelected.getCatégorie());
+                salonIpTxt.setText(salonSelected.getIp());
+                salonUsersTxt.setText(String.valueOf(salonSelected.getNbUsers()));
 
-        } catch (IOException ex) {
-            Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_jTree1MouseReleased
+
+    
+    /**
+     * Tentative de connexion à un salon
+     * @param evt Événément provoquant l'appel de la fonction
+     */
+    private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
+        if (jTextField1.getText().equals((String) "")) {
+            JOptionPane.showMessageDialog(null, "Un nom d'utilisateur est nessaire");
+        } else {
+            /*Connexion au client maitre*/
+
+            
+            try {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+                if (selectedNode.isLeaf() == true) {
+                    Salon salonSelected = (Salon) selectedNode.getUserObject(); //récupération du salon ==> ip et port du client maitre
+                    
+                    //Création d'une nouvelle socket
+                    this.s1 = new Socket();
+                    InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), salonSelected.getPort());
+                    s1.connect(sa);
+                    
+                    //Création d'une nouvelle fenêtre qui n'est pas celle de l'hôte
+                    Fenetre f = new Fenetre(false);
+                    ConnexionClient ConnexionSock = new ConnexionClient(s1, f, null); //socket d'écoute ==> on écoute ce que le client maitre envoie
+                    f.setConnection(ConnexionSock);
+                    ConnexionSock.start();
+                    f.setVisible(true);
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(StartView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_connectionBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //création salon
-        try {
-            ServerSocket s = new ServerSocket(0); //socketserveur du client maitre
-            
-            System.out.println("Demande création de salon");
-            
-            Message m = new Message(Message.CREATION_SALON, new Salon(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort(), jTextField2.getText(), "MCS3"));
-            System.out.println(m);
-            
-            //envoi de la création de salon avec ip + port du client maitre
-            outputStream.writeObject(m);
-            //retour du serveur de salons
-            Object msg = (Object) inputStream.readObject();
-            System.out.println("Considéré comme un salon d'id: " + msg.toString());
-            
-            
-            Message mesg = (Message) msg;
-            int idsalon = (int) mesg.getData();
-            
-              
+        if (jTextField1.getText().equals((String) "") || jTextField2.getText().equals((String) "")) {
+            if (jTextField1.equals((String) "")) {
+                JOptionPane.showMessageDialog(null, "Un nom d'utilisateur est nessaire");
+            } else {
+                JOptionPane.showMessageDialog(null, "Un nom de salon est necessaire");
+            }
 
-            
-            //le maitre se connecte à lui même
-            Socket s1 = new Socket();
-          //  ServerSocket s1 = new ServerSocket(0);
-            InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getHostAddress(), s.getLocalPort()); //
-            s1.connect(sa);
-            System.out.println("Connexion Accepted");
-            
-                      Fenetre f = new Fenetre(true);
-                    
-            ConnexionClient ConnexionSock = new ConnexionClient(s1, f,null);
-              f.setConnection(ConnexionSock);
-              ConnexionSock.start();
-      
-      
-            Host hote = new Host(s, inputStream, outputStream, f );
-            hote.setId_salon(idsalon);
-            hote.start();
-            
-            
-            System.out.println("1");
-            ConnexionSock.SetFenetre(f);
+        } else {
+            //création salon
+            try {
+                ServerSocket s = new ServerSocket(0); //socketserveur du client maitre
+
+                System.out.println("Demande création de salon");
+
+                Message m = new Message(Message.CREATION_SALON, new Salon(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort(), jTextField2.getText(), "MCS3"));
+                System.out.println(m);
+
+                //envoi de la création de salon avec ip + port du client maitre
+                outputStream.writeObject(m);
+                //retour du serveur de salons
+                Object msg = (Object) inputStream.readObject();
+                System.out.println("Considéré comme un salon d'id: " + msg.toString());
+
+                Message mesg = (Message) msg;
+                int idsalon = (int) mesg.getData();
+
+                //le maitre se connecte à lui même
+                Socket s1 = new Socket();
+                //  ServerSocket s1 = new ServerSocket(0);
+                InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getHostAddress(), s.getLocalPort()); //
+                s1.connect(sa);
+                System.out.println("Connexion Accepted");
+
+                Fenetre f = new Fenetre(true);
+
+                ConnexionClient ConnexionSock = new ConnexionClient(s1, f, null);
+                f.setConnection(ConnexionSock);
+                ConnexionSock.start();
+
+                Host hote = new Host(s, inputStream, outputStream, f);
+                hote.setId_salon(idsalon);
+                hote.start();
+
+                System.out.println("1");
+                ConnexionSock.SetFenetre(f);
 //            ConnexionSock.start();
-            System.out.println("2");
-            
-            
-            System.out.println("3");
-            f.setVisible(true);
-            System.out.println("4");
-            //EcouteurFenetre ef = new EcouteurFenetre();
+                System.out.println("2");
 
-           // f.addWindowListener(ef);
+                System.out.println("3");
+                f.setVisible(true);
+                System.out.println("4");
 
-        } catch (IOException ex) {
-            Logger.getLogger(StartView.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StartView.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(StartView.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(StartView.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
 
@@ -582,6 +618,10 @@ public class StartView extends javax.swing.JFrame {
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
