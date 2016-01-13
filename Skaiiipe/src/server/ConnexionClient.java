@@ -29,8 +29,11 @@ public class ConnexionClient extends Thread {
     private ObjectInputStream InputClient;
     private Fenetre fen;
     private Host hote;
-    
-    
+
+    public ObjectInputStream getInputClient() {
+        return InputClient;
+    }
+
     public Socket getSocket() {
 
         return socketServer;
@@ -43,44 +46,42 @@ public class ConnexionClient extends Thread {
 
     }
 
-    public ConnexionClient(java.net.Socket socketServer, Fenetre f,Host hote) throws IOException {
+    public ConnexionClient(java.net.Socket socketServer, Fenetre f, Host hote) throws IOException {
         this.hote = hote;
         this.fen = f;
         this.socketServer = socketServer;
         id = incre;
         incre++;
-        System.out.println("Init Input");
-        System.out.println("Input initialisé");
+
     }
 
     @Override
     public void run() {
-        System.out.println("run");
+
         try {
             //écouteur du client maitre
             InputClient = new ObjectInputStream(socketServer.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Inputstream localisé");
+
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                System.out.println("Waiting pour un message");
                 Message msg = (Message) InputClient.readObject();
-                System.out.println("ConnexionServeur " + id + ": bip ");
-                System.out.println("Message reçu: " + msg.getData().toString());
                 Forme receivedForme = (Forme) msg.getData();
                 switch (msg.getType()) {
                     case Message.FORME:
-                        
+
                         System.out.println(fen);
                         fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();
+                        hote.broadcastAllUser(this, msg);
+                        System.out.println("Une forme est reçue");
                         break;
                     case Message.FERMETURE_SALON:
                         hote.outputStream.writeObject(new Message(Message.FERMETURE_SALON, hote.getId_salon()));
                         break;
-                        
+
                     case Message.GOMME:
                         fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();

@@ -106,4 +106,16 @@ public class Host extends Thread {
         }
     }
 
+    
+    public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
+        System.out.println("HelloBroadcast");
+        for(ConnexionClient client : ListClient){
+            if(!client.equals(c)){
+                ObjectOutputStream outputClient = new ObjectOutputStream(client.getSocket().getOutputStream());
+                outputClient.writeObject(m);
+                //utputClient.close();
+            }
+        }
+        
+    }
 }
