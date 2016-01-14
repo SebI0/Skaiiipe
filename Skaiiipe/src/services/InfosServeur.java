@@ -42,11 +42,11 @@ public class InfosServeur implements Serializable {
 
         System.out.println("Liste: " + listServers);
         Iterator<Salon> iterator = listServers.iterator();
-        int val=0;
+        int val = 0;
         List<Salon> listTemp = new ArrayList<>();
-        for(Salon salon : listServers){
-            System.out.println("Comparaison: "+salon.getId()+" : "+elt.getId());
-            if (salon.getId()!=elt.getId()) {
+        for (Salon salon : listServers) {
+            System.out.println("Comparaison: " + salon.getId() + " : " + elt.getId());
+            if (salon.getId() != elt.getId()) {
                 listTemp.add(listServers.get(val));
             }
             val++;
@@ -63,7 +63,7 @@ public class InfosServeur implements Serializable {
     @Override
     public String toString() {
         String s = "";
-        for(Salon serv : listServers) {
+        for (Salon serv : listServers) {
             s += "\n" + serv.toString();
         }
         return s;

@@ -8,10 +8,7 @@ package tppaint2014;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
-
 public class Gomme extends Forme {
-
 
     public Gomme(int a, int b, Color col) {
         super(a, b, 0, 0, col);
@@ -20,17 +17,13 @@ public class Gomme extends Forme {
     @Override
     public void seDessiner(Graphics g, int remplir) {
         g.setColor(col);
-        g.drawOval(a,b,10,10);
-        g.fillOval(a,b,10,10);
+        g.drawOval(a, b, 10, 10);
+        g.fillOval(a, b, 10, 10);
     }
 
     @Override
     public void remplir(int col) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
-
-    
 
 }

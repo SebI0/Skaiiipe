@@ -12,8 +12,8 @@ import java.util.ArrayList;
  *
  * @author Seb
  */
-public class Salon implements Serializable{
-    
+public class Salon implements Serializable {
+
     private String ip;
     private int port;
     private String nom;
@@ -22,10 +22,8 @@ public class Salon implements Serializable{
     private ArrayList<String> users;
     public boolean active;
     public int id;
-    private static int incre=0;
-    
-    
-    
+    private static int incre = 0;
+
     public Salon(String ip, int port, String nom, String catégorie) {
         this.ip = ip;
         this.port = port;
@@ -33,16 +31,14 @@ public class Salon implements Serializable{
         this.catégorie = catégorie;
         this.nbUsers = 1;
         this.users = new ArrayList<String>();
-        this.active=true;
-        this.id=incre;
+        this.active = true;
+        this.id = incre;
         incre++;
     }
 
     public int getId() {
         return id;
     }
-    
-    
 
     public String getIp() {
         return ip;
@@ -92,18 +88,14 @@ public class Salon implements Serializable{
         this.users = users;
     }
 
-    public void addUser(String username)
-    {
+    public void addUser(String username) {
         this.users.add(username);
-        
+
     }
+
     @Override
     public String toString() {
         return nom;
     }
-    
-    
-    
-    
-    
+
 }

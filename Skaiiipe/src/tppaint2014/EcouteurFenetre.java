@@ -19,9 +19,11 @@ public class EcouteurFenetre implements WindowListener {
     @Override
     public void windowClosing(WindowEvent e) {
         f.setVisible(false);
-        if(f.isHost) f.communication.shutdown();
+        if (f.isHost) {
+            f.communication.shutdown();
+        }
         f.dispose();
-        
+
     }
 
     @Override

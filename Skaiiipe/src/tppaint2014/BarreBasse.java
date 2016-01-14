@@ -10,30 +10,26 @@ import java.awt.Color;
 import java.awt.Label;
 import java.awt.Panel;
 
+public class BarreBasse extends Panel {
 
-public class BarreBasse extends Panel{
-    
     public Label message;
-    public  Label x, y;
-   // public static Label x, y;
-    
+    public Label x, y;
+    // public static Label x, y;
 
     public BarreBasse() {
-        
+
         this.setBackground(Color.lightGray);
         message = new Label("Coucou");
         x = new Label("x=       ");
         y = new Label("y=       ");
-        
+
         this.add(message, BorderLayout.WEST);
         this.add(x);
         this.add(y);
     }
-    
-    public void changerMessage(String msg)
-    {
+
+    public void changerMessage(String msg) {
         this.message.setText(msg);
     }
-    
-    
+
 }

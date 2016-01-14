@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Elie
  */
-public class Message implements Serializable{
+public class Message implements Serializable {
+
     public static final int FORME = 10;
     public static final int LIST_SALONS = 11;
     public static final int CREATION_SALON = 12;
@@ -25,13 +26,12 @@ public class Message implements Serializable{
     public static final int EFFACER_COULEUR = 20;
     public static final int ERROR = -999;
     public static final int INIT = 0;
-    
-    
+
     private Object data;
-    
+
     private int type;
-    
-    public Message(int typ, Object Data){
+
+    public Message(int typ, Object Data) {
         this.type = typ;
         this.data = Data;
     }
@@ -48,7 +48,5 @@ public class Message implements Serializable{
     public String toString() {
         return "Message{" + "data=" + data + ", type=" + type + '}';
     }
-    
-    
-    
+
 }

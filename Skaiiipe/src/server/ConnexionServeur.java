@@ -35,7 +35,7 @@ public class ConnexionServeur extends Thread implements Serializable {
         id = incre;
         incre++;
         this.serv = s;
-      //  info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(), "Salon "+id, "cate");
+        //  info = new Salon(socketServer.getInetAddress().toString(), socketServer.getPort(), "Salon "+id, "cate");
         estHote = false;
     }
 
@@ -92,16 +92,16 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 break;
 
                             case Message.LIST_SALONS:
-                                 System.out.println("__server__ envoi liste salons");
+                                System.out.println("__server__ envoi liste salons");
                                 // for(Salon connex : serv.getListServers())
                                 System.out.println("__server__ " + this.serv.getSalons());
                                 outputClient.writeObject(new Message(Message.LIST_SALONS, this.serv.listServers.get()));
                                 break;
                             case Message.CREATION_SALON:
-                                
+
                                 this.estHote = true;
                                 serv.listServers.add((Salon) m.getData());
-                                info=(Salon) m.getData();
+                                info = (Salon) m.getData();
                                 break;
                             default:
                                 System.out.println("error");
@@ -116,8 +116,8 @@ public class ConnexionServeur extends Thread implements Serializable {
                         Message msg = (Message) InputClient.readObject();
                         switch (msg.getType()) {
                             case Message.MAJ_SALON:
-                              //  info.setNbUsers((int) msg.getData());
-                                
+                                //  info.setNbUsers((int) msg.getData());
+
                                 System.out.println(msg.getData());
                                 info.addUser((String) msg.getData());
                                 System.out.println("UPDATE");
@@ -127,7 +127,7 @@ public class ConnexionServeur extends Thread implements Serializable {
                                 estHote = false;
                                 System.out.println(info);
                                 System.out.println("Salon fermé!");
- //                               info.active=false;
+                                //                               info.active=false;
                                 this.serv.listServers.remove(info);
                                 this.serv.updateListeSalons();
                                 break;

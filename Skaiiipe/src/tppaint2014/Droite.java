@@ -8,8 +8,7 @@ package tppaint2014;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
-public class Droite extends Forme{
+public class Droite extends Forme {
 
     public Droite(int a, int b, int c, int d, Color col) {
         super(a, b, c, d, col);
@@ -18,13 +17,12 @@ public class Droite extends Forme{
     @Override
     public void seDessiner(Graphics g, int remplir) {
         g.setColor(col);
-       g.drawLine(a, b, c, d);
+        g.drawLine(a, b, c, d);
     }
 
     @Override
     public void remplir(int col) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

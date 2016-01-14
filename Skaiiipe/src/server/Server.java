@@ -66,8 +66,7 @@ public class Server extends Thread implements Serializable {
             s2.bind(sa);
             System.out.println("__serveur__ Serveur de salons crée !");
             System.out.println("__serveur__ IP : " + InetAddress.getLocalHost() + " port : " + this.port);
-            
-            
+
             updateListeSalons();
             while (!Thread.currentThread().isInterrupted()) {
                 Socket s = s2.accept();
@@ -83,25 +82,25 @@ public class Server extends Thread implements Serializable {
     }
 
     public List<Salon> getListServers() {
-         List<Salon>  SalonActifs = new ArrayList<>();
-        for(Salon elt :listServers.get() ){
-            System.out.println(elt.getNom()+":"+ elt.active);
-            if(elt.active){
-                
-                    SalonActifs.add(elt);
+        List<Salon> SalonActifs = new ArrayList<>();
+        for (Salon elt : listServers.get()) {
+            System.out.println(elt.getNom() + ":" + elt.active);
+            if (elt.active) {
+
+                SalonActifs.add(elt);
             }
         }
         return SalonActifs;
-        
+
     }
 
     public List<Salon> getSalons() {
-                 List<Salon>  SalonActifs = new ArrayList<>();
-        for(Salon elt :salons ){
-            System.out.println(elt.getNom()+":"+ elt.active);
-            if(elt.active){
-                
-                    SalonActifs.add(elt);
+        List<Salon> SalonActifs = new ArrayList<>();
+        for (Salon elt : salons) {
+            System.out.println(elt.getNom() + ":" + elt.active);
+            if (elt.active) {
+
+                SalonActifs.add(elt);
             }
         }
         return SalonActifs;
@@ -132,13 +131,15 @@ public class Server extends Thread implements Serializable {
             for (Salon s : this.listServers.get()) {
                 DefaultComboBoxModel model = new DefaultComboBoxModel();
                 System.out.println(s.getUsers());
-                if (!s.getUsers().isEmpty())
-                    for (String user : s.getUsers())
+                if (!s.getUsers().isEmpty()) {
+                    for (String user : s.getUsers()) {
                         model.addElement(user);
-                else 
+                    }
+                } else {
                     model.addElement("Aucun utilisateur");
-                    this.listUsers.setModel(model);
-                
+                }
+                this.listUsers.setModel(model);
+
                 int pos = listeCategories.indexOf(s.getCatégorie());
                 if (pos == -1) {
                     DefaultMutableTreeNode categorie = new DefaultMutableTreeNode(s.getCatégorie());

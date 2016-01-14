@@ -137,23 +137,24 @@ public class BarreHaute extends Panel implements ActionListener {
 
         saF.zg.repaint();
     }
-    public void EffacerCouleur(boolean broadcast){
-         if (broadcast) {
+
+    public void EffacerCouleur(boolean broadcast) {
+        if (broadcast) {
             saF.communication.send(Message.EFFACER_COULEUR, null);
         }
         System.out.println("Effacement de toutes les formes de couleur: " + couleurs.getSelectedItem());
-            int i;
+        int i;
 
-            for (i = 0; i < saF.lesFormes.size(); i++) {
-                if ((couleurs.getSelectedItem().equals("BLEU") && saF.lesFormes.get(i).col.equals(Color.blue))
-                        || (couleurs.getSelectedItem().equals("ROUGE") && saF.lesFormes.get(i).col.equals(Color.red))
-                        || (couleurs.getSelectedItem().equals("VERT") && saF.lesFormes.get(i).col.equals(Color.green))
-                        || (couleurs.getSelectedItem().equals("ORANGE") && saF.lesFormes.get(i).col.equals(Color.orange))) {
-                    saF.lesFormes.remove(i);
-                    i--;
-                }
+        for (i = 0; i < saF.lesFormes.size(); i++) {
+            if ((couleurs.getSelectedItem().equals("BLEU") && saF.lesFormes.get(i).col.equals(Color.blue))
+                    || (couleurs.getSelectedItem().equals("ROUGE") && saF.lesFormes.get(i).col.equals(Color.red))
+                    || (couleurs.getSelectedItem().equals("VERT") && saF.lesFormes.get(i).col.equals(Color.green))
+                    || (couleurs.getSelectedItem().equals("ORANGE") && saF.lesFormes.get(i).col.equals(Color.orange))) {
+                saF.lesFormes.remove(i);
+                i--;
             }
-            saF.zg.repaint();
+        }
+        saF.zg.repaint();
     }
 
     @Override

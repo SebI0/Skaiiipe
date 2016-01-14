@@ -17,19 +17,20 @@ import java.net.Socket;
  * @author Elie
  */
 public class Test {
-     public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         ServerSocket s2 = new ServerSocket();
         InetSocketAddress sa = new InetSocketAddress("localhost", 60000);
-         s2.bind(sa);
-         System.out.println("SOCKET READY");
-          Socket s = s2.accept();
-          
-          System.out.println("UNE CONNEXION EST ARRIVÉE");
-          InputStream is = s.getInputStream();
-          ObjectInputStream InputClient = new ObjectInputStream(is);
-          while(true){
-          Object msg = InputClient.readObject();
-          System.out.println("Message reçu: "+msg); 
-          }
+        s2.bind(sa);
+        System.out.println("SOCKET READY");
+        Socket s = s2.accept();
+
+        System.out.println("UNE CONNEXION EST ARRIVÉE");
+        InputStream is = s.getInputStream();
+        ObjectInputStream InputClient = new ObjectInputStream(is);
+        while (true) {
+            Object msg = InputClient.readObject();
+            System.out.println("Message reçu: " + msg);
+        }
     }
 }

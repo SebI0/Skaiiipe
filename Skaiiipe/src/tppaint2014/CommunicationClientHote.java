@@ -20,18 +20,18 @@ import java.util.logging.Logger;
  * @author Elie
  */
 public class CommunicationClientHote {
+
     private ObjectOutputStream outputStream;
     private Socket connexionClient;
-   
+
     public CommunicationClientHote(Socket s) throws IOException {
         connexionClient = s;
         outputStream = new ObjectOutputStream(s.getOutputStream());
 
     }
-    
-    
-    public boolean send(int type, Object data){
-        Message m = new Message(type, data);    
+
+    public boolean send(int type, Object data) {
+        Message m = new Message(type, data);
         try {
             outputStream.writeObject(m);
             System.out.println("Message envoyé");
@@ -40,9 +40,9 @@ public class CommunicationClientHote {
             return false;
         }
     }
-    
-    public boolean sendForm(Forme F){
-        Message m = new Message(Message.FORME, F);    
+
+    public boolean sendForm(Forme F) {
+        Message m = new Message(Message.FORME, F);
         try {
             outputStream.writeObject(m);
             System.out.println("Message envoyé");
@@ -51,9 +51,9 @@ public class CommunicationClientHote {
             return false;
         }
     }
-    
-        public boolean sendGomme(Forme F){
-        Message m = new Message(Message.GOMME, F);    
+
+    public boolean sendGomme(Forme F) {
+        Message m = new Message(Message.GOMME, F);
         try {
             outputStream.writeObject(m);
             System.out.println("Message envoyé");
@@ -73,6 +73,5 @@ public class CommunicationClientHote {
             return false;
         }
     }
-    
-    
+
 }

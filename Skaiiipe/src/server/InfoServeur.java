@@ -11,11 +11,12 @@ import java.io.Serializable;
  *
  * @author Elie
  */
-public class InfoServeur implements Serializable{
+public class InfoServeur implements Serializable {
+
     String adresse;
     int port;
     String nom;
-    
+
     public InfoServeur(String adresse, int port, String nom) {
         this.adresse = adresse;
         this.port = port;
@@ -24,8 +25,7 @@ public class InfoServeur implements Serializable{
 
     @Override
     public String toString() {
-        return "Serveur : "+nom + "adresse= " + adresse + ", port=" + port;
+        return "Serveur : " + nom + "adresse= " + adresse + ", port=" + port;
     }
-    
-    
+
 }

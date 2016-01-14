@@ -49,7 +49,7 @@ public class ConnexionClient extends Thread {
     }
 
     public ConnexionClient(java.net.Socket socketServer, Fenetre f) throws IOException {
-      //  this.hote = hote;
+        //  this.hote = hote;
         this.fen = f;
         this.socketServer = socketServer;
         this.id = incre;
@@ -75,7 +75,7 @@ public class ConnexionClient extends Thread {
                 Forme receivedForme;
                 switch (msg.getType()) {
                     case Message.FORME:
-                         receivedForme = (Forme) msg.getData();
+                        receivedForme = (Forme) msg.getData();
                         System.out.println(fen);
                         fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();

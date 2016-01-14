@@ -81,7 +81,6 @@ public class Host extends Thread {
         return f;
     }
 
-    
     /**
      * Getter de l'id du salon associé à l'hôte
      *

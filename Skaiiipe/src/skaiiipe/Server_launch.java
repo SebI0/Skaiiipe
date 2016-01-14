@@ -15,32 +15,31 @@ import java.net.UnknownHostException;
 public class Server_launch extends javax.swing.JFrame {
 
     /**
-     * Création d'un serveur qui centralise toutes les salons
-     * Le port est réglé sur le 6555.
+     * Création d'un serveur qui centralise toutes les salons Le port est réglé
+     * sur le 6555.
      */
     public Server_launch() {
         //Initialisation des composants
         initComponents();
-        
+
         //Définitions de variables
         InetAddress ipServeur;
         int port = 6555;
-        
+
         try {
             //Récupération de l'ip locale du serveur
             ipServeur = InetAddress.getLocalHost();
             server.Server serveur = new server.Server(ipServeur, port, this.jTree2, this.jList1); //jtree2 est la liste des salons disponibles
-            
+
             //lancement du serveur de salons
             serveur.start();
-            
+
             //Remplissage des éléments graphiques avec les informations du serveur:
             //Adresse, nom et port.
             this.jTextField1.setText(ipServeur.getHostAddress());
             this.jTextField3.setText(ipServeur.getHostName());
             this.jTextField2.setText(String.valueOf(port));
-            
-            
+
         } catch (UnknownHostException ex) {
             System.out.println("Erreur lors de la récupération de l'adresse ip locale");
         }
@@ -158,6 +157,7 @@ public class Server_launch extends javax.swing.JFrame {
 
     /**
      * Programme principale permetant le lancement du serveur
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {

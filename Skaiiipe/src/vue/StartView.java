@@ -496,9 +496,9 @@ public class StartView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTree1MouseReleased
 
-    
     /**
      * Tentative de connexion à un salon
+     *
      * @param evt Événément provoquant l'appel de la fonction
      */
     private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
@@ -507,17 +507,16 @@ public class StartView extends javax.swing.JFrame {
         } else {
             /*Connexion au client maitre*/
 
-            
             try {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
                 if (selectedNode.isLeaf() == true) {
                     Salon salonSelected = (Salon) selectedNode.getUserObject(); //récupération du salon ==> ip et port du client maitre
-                    
+
                     //Création d'une nouvelle socket
                     this.s1 = new Socket();
                     InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), salonSelected.getPort());
                     s1.connect(sa);
-                    
+
                     //Création d'une nouvelle fenêtre qui n'est pas celle de l'hôte
                     Fenetre f = new Fenetre(false);
                     ConnexionClient ConnexionSock = new ConnexionClient(s1, f); //socket d'écoute ==> on écoute ce que le client maitre envoie
@@ -594,7 +593,6 @@ public class StartView extends javax.swing.JFrame {
                         .getName()).log(Level.SEVERE, null, ex);
             }
         }
-
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

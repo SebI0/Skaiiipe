@@ -9,10 +9,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-
 public abstract class Forme implements Serializable {
-    
-    public int a,b,c,d;
+
+    public int a, b, c, d;
     public Color col;
     int plein;
 
@@ -23,8 +22,9 @@ public abstract class Forme implements Serializable {
         this.d = d;
         this.col = couleur;
     }
-    
+
     public abstract void seDessiner(Graphics g, int remplir);
+
     public abstract void remplir(int col);
 
 }

@@ -5,6 +5,7 @@ package tppaint2014;
  * @author Sébastien
  */
 public class Point {
+
     public int X;
     public int Y;
 
@@ -12,7 +13,5 @@ public class Point {
         this.X = X;
         this.Y = Y;
     }
-    
-    
 
 }
