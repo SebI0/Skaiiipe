@@ -93,6 +93,18 @@ public class ConnexionClient extends Thread {
                         fen.zg.repaint();
                         System.out.println(receivedForme);
                         break;
+                    case Message.EFFACER:
+                        fen.bh.EffacerLast(false);
+                        break;
+                    case Message.EFFACER_TOUT:
+                        fen.bh.EffacerTout(false);
+                        break;
+                    case Message.EFFACER_FAM:
+                        fen.bh.EffacerFamille(false);
+                        break;
+                    case Message.EFFACER_COULEUR:
+                        fen.bh.EffacerCouleur(false);
+                        break;
                 }
 
             } catch (IOException ex) {

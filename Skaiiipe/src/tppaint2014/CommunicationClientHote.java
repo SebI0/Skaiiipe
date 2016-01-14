@@ -30,6 +30,17 @@ public class CommunicationClientHote {
     }
     
     
+    public boolean send(int type, Object data){
+        Message m = new Message(type, data);    
+        try {
+            outputStream.writeObject(m);
+            System.out.println("Message envoyé");
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+    
     public boolean sendForm(Forme F){
         Message m = new Message(Message.FORME, F);    
         try {
