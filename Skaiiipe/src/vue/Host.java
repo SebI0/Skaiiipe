@@ -19,6 +19,7 @@ import server.Broadcaster;
 import server.ConnexionClient;
 import services.Message;
 import tppaint2014.Fenetre;
+import tppaint2014.Forme;
 
 /**
  * Thread permettant aux salons d'écouter les connexions clients.
@@ -55,7 +56,7 @@ public class Host extends Thread {
     /**
      * Constructeur d'un Hôte
      *
-     * @param serverSocket Socket d'écoute du serveur principal 
+     * @param serverSocket Socket d'écoute du serveur principal
      * @param inputStr Flux de lecture du serveur principal vers l'hote
      * @param outputStr Flux d'écriture de l'hote vers serveur princpal
      * @param f Passage de la fenêtre associé au client hôte
@@ -69,8 +70,14 @@ public class Host extends Thread {
         this.f = f;
     }
 
+    public Fenetre getFen() {
+        return f;
+    }
+
+    
     /**
      * Getter de l'id du salon associé à l'hôte
+     *
      * @return id_salon identifiant numérique du salon
      */
     public int getId_salon() {
@@ -79,17 +86,19 @@ public class Host extends Thread {
 
     /**
      * Setter de l'id du salon associé à l'hôte
-     * @param id_salon identifiant numérique du salon que l'on souhaite attribuer
+     *
+     * @param id_salon identifiant numérique du salon que l'on souhaite
+     * attribuer
      */
     public void setId_salon(int id_salon) {
         this.id_salon = id_salon;
     }
 
     /**
-     * Définition du fonctionnement du thread.
-     * On commence par créer une liste dans laquelle on y mettra les différents clients.
-     * Ensuite, on se met à l'écoute du réseau pour détecter lorsqu'un client souhaite
-     * se connecter au salon, dès lors qu'il y a une connexion on l'enregistre, on lui 
+     * Définition du fonctionnement du thread. On commence par créer une liste
+     * dans laquelle on y mettra les différents clients. Ensuite, on se met à
+     * l'écoute du réseau pour détecter lorsqu'un client souhaite se connecter
+     * au salon, dès lors qu'il y a une connexion on l'enregistre, on lui
      * attribue un thread et on l'ajoute dans la liste des utilisateurs.
      */
     @Override
@@ -98,32 +107,32 @@ public class Host extends Thread {
         try {
             //Création d'une liste
             ListClient = new ArrayList<>();
-            
+
             while (!Thread.currentThread().isInterrupted()) {
                 Socket s = this.serveurSocket.accept();
                 Broadcaster ConnexionCli = new Broadcaster(s, this);
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
                 ConnexionCli.start();
+
             }
         } catch (IOException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
-   /* public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
-        System.out.println("HelloBroadcast");
-        int incre=0;
-        for(ConnexionClient client : ListClient){
-            incre++;
-            if(!client.equals(c)){
-                ObjectOutputStream outputClient = new ObjectOutputStream(client.getSocket().getOutputStream());
-                outputClient.writeObject(m);
+    /* public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
+     System.out.println("HelloBroadcast");
+     int incre=0;
+     for(ConnexionClient client : ListClient){
+     incre++;
+     if(!client.equals(c)){
+     ObjectOutputStream outputClient = new ObjectOutputStream(client.getSocket().getOutputStream());
+     outputClient.writeObject(m);
                 
-            }
-        }
-        System.out.println("Broadcasté :"+incre);
+     }
+     }
+     System.out.println("Broadcasté :"+incre);
         
-    }*/
+     }*/
 }

@@ -64,6 +64,7 @@ public class ConnexionClient extends Thread {
         try {
             //écouteur du client maitre
             InputClient = new ObjectInputStream(socketServer.getInputStream());
+
         } catch (IOException ex) {
             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
         }

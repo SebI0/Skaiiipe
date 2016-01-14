@@ -65,9 +65,6 @@ public class Broadcaster extends Thread {
         return OutputClient;
     }
 
-    
-    
-    
     public void broadcastAllUser(Broadcaster c, Message m) throws IOException {
         System.out.println("HelloBroadcast");
         int incre = 0;
@@ -82,11 +79,14 @@ public class Broadcaster extends Thread {
     }
 
     @Override
-    public void run(){
-         try {
+    public void run() {
+        try {
             //écouteur du client maitre
             InputClient = new ObjectInputStream(socketServer.getInputStream());
             OutputClient = new ObjectOutputStream(socketServer.getOutputStream());
+            for (Forme fe : hote.getFen().lesFormes) {
+                OutputClient.writeObject(new Message(Message.FORME, fe));
+            }
         } catch (IOException ex) {
             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -94,8 +94,7 @@ public class Broadcaster extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) InputClient.readObject();
-                broadcastAllUser(this,msg);
-
+                broadcastAllUser(this, msg);
 
             } catch (IOException ex) {
                 Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
