@@ -94,7 +94,10 @@ public class Broadcaster extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) InputClient.readObject();
-                broadcastAllUser(this, msg);
+                
+                    broadcastAllUser(this, msg);
+                if(msg.getType()==Message.FERMETURE_SALON)
+                      hote.setActive(false);
 
             } catch (IOException ex) {
                 Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);

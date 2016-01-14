@@ -22,15 +22,15 @@ public class Skaiiipe {
         
         
         // TODO code application logic here
-        StartView s = new StartView();
+       StartView s = new StartView();
         s.setVisible(true);
-                StartView s2 = new StartView();
+             StartView s2 = new StartView();
         s2.setVisible(true);
-        
+          
         Server_launch s1 = new Server_launch();
         s1.setVisible(true);
         
-       
+     
     }
     
 }
