@@ -23,8 +23,9 @@ public class Salon implements Serializable {
     public boolean active;
     public int id;
     private static int incre = 0;
+    private String pseudo_hote;
 
-    public Salon(String ip, int port, String nom, String catégorie) {
+    public Salon(String ip, int port, String nom, String catégorie, String pseudo_hote) {
         this.ip = ip;
         this.port = port;
         this.nom = nom;
@@ -33,6 +34,8 @@ public class Salon implements Serializable {
         this.users = new ArrayList<String>();
         this.active = true;
         this.id = incre;
+        this.pseudo_hote = pseudo_hote;
+        this.addUser(pseudo_hote);
         incre++;
     }
 
@@ -91,6 +94,10 @@ public class Salon implements Serializable {
     public void addUser(String username) {
         this.users.add(username);
 
+    }
+
+    public String toFull() {
+        return "Salon{" + "ip=" + ip + ", port=" + port + ", nom=" + nom + ", cat\u00e9gorie=" + catégorie + ", nbUsers=" + nbUsers + ", users=" + users + ", active=" + active + ", id=" + id + '}';
     }
 
     @Override

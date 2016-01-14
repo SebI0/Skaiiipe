@@ -158,7 +158,7 @@ public class Broadcaster extends Thread {
                 if (msg.getType() == Message.FERMETURE_SALON) {
                     hote.setActive(false);
                 }
-            //Gestion des erreurs
+                //Gestion des erreurs
             } catch (IOException ex) {
                 Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {

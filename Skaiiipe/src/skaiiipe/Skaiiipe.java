@@ -20,7 +20,7 @@ public class Skaiiipe {
     public static void main(String[] args) throws IOException {
 
         // TODO code application logic here
-       StartView s = new StartView();
+        StartView s = new StartView();
         s.setVisible(true);
         StartView s2 = new StartView();
         s2.setVisible(true);

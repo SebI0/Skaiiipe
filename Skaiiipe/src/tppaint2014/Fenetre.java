@@ -35,16 +35,28 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
 
     public ArrayList<Forme> lesFormes;
 
+    private String pseudo;
+
     public CommunicationClientHote communication;
 
     public void setConnection(ConnexionClient c) {
         this.connexionClient = c;
         try {
             communication = new CommunicationClientHote(c.getSocket());
+
         } catch (Exception e) {
             System.out.println("Une erreur de communication s'est produite");
         }
     }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
     public boolean isHost;
 
     public Fenetre(boolean host) {

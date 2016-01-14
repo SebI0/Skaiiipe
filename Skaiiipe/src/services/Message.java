@@ -24,6 +24,7 @@ public class Message implements Serializable {
     public static final int EFFACER_TOUT = 18;
     public static final int EFFACER_FAM = 19;
     public static final int EFFACER_COULEUR = 20;
+    public static final int PSEUDO = 21;
     public static final int ERROR = -999;
     public static final int INIT = 0;
 

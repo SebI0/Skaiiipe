@@ -49,6 +49,7 @@ public class Host extends Thread {
     public ObjectOutputStream outputStream;
     private Fenetre f;
     private boolean active;
+
     public ArrayList<Broadcaster> getListClient() {
         return ListClient;
     }
@@ -57,7 +58,6 @@ public class Host extends Thread {
         this.active = active;
     }
 
-    
     /**
      * Constructeur d'un Hôte
      *
@@ -73,8 +73,8 @@ public class Host extends Thread {
         this.outputStream = outputStr;
         this.serveurSocket = serverSocket;
         this.f = f;
-        this.active=true;
-        
+        this.active = true;
+
     }
 
     public Fenetre getFen() {
@@ -114,15 +114,14 @@ public class Host extends Thread {
             //Création d'une liste
             ListClient = new ArrayList<>();
 
-            while (!Thread.currentThread().isInterrupted()&&active) {
+            while (!Thread.currentThread().isInterrupted() && active) {
                 Socket s = this.serveurSocket.accept();
                 Broadcaster ConnexionCli = new Broadcaster(s, this);
                 ListClient.add(ConnexionCli);
-                outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
                 ConnexionCli.start();
 
             }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -5,18 +5,14 @@
  */
 package server;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.BindException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.JTree;
@@ -74,11 +70,28 @@ public class Server extends Thread implements Serializable {
                 System.out.println("__serveur__ Server " + id + ": Ajout d'une connexion Serveur");
                 //listServers.add(ServerConnexion.getInfos());
                 System.out.println("__serveur__ Il y a actuellement: " + listServers.size() + " serveurs en ligne");
+                updateListeSalons();
                 ServerConnexion.start();
             }
         } catch (IOException ex) {
             System.out.println(ex);
         }
+    }
+
+    public void addUser(Integer id_salon, String pseudo) {
+
+        for (Salon s : this.listServers.get()) {
+            System.out.println(s.toFull());
+            if (s.getId() == id_salon) {
+                System.out.println("AJOUT DE USER : " + pseudo);
+                s.addUser(pseudo);
+            }
+        }
+
+        for (Salon s : this.listServers.get()) {
+            System.out.println(s.toFull());
+        }
+
     }
 
     public List<Salon> getListServers() {

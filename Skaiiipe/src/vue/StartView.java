@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import modele.Salon;
+import modele.User;
 import server.ConnexionClient;
 import services.Message;
 import tppaint2014.EcouteurFenetre;
@@ -573,7 +574,7 @@ public class StartView extends javax.swing.JFrame {
      */
     private void connectionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionBtnActionPerformed
         if (jTextField1.getText().equals((String) "")) {
-            JOptionPane.showMessageDialog(null, "Un nom d'utilisateur est nessaire");
+            JOptionPane.showMessageDialog(null, "Un nom d'utilisateur est necessaire");
         } else {
             /*Connexion au client maitre*/
 
@@ -587,11 +588,17 @@ public class StartView extends javax.swing.JFrame {
                     InetSocketAddress sa = new InetSocketAddress(salonSelected.getIp(), salonSelected.getPort());
                     s1.connect(sa);
 
+                    User u = new User(salonSelected.getId(), jTextField1.getText());
+                    Message mm = new Message(Message.PSEUDO, u);
+                    outputStream.writeObject(mm);
+
                     //Création d'une nouvelle fenêtre qui n'est pas celle de l'hôte
                     Fenetre f = new Fenetre(false);
+                    f.setPseudo(jTextField1.getText());
                     ConnexionClient ConnexionSock = new ConnexionClient(s1, f); //socket d'écoute ==> on écoute ce que le client maitre envoie
                     f.setConnection(ConnexionSock);
                     ConnexionSock.start();
+
                     f.setVisible(true);
                 }
 
@@ -617,7 +624,7 @@ public class StartView extends javax.swing.JFrame {
 
                 System.out.println("Demande création de salon");
 
-                Message m = new Message(Message.CREATION_SALON, new Salon(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort(), jTextField2.getText(), "MCS3"));
+                Message m = new Message(Message.CREATION_SALON, new Salon(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort(), jTextField2.getText(), "MCS3", jTextField1.getText()));
                 System.out.println(m);
 
                 //envoi de la création de salon avec ip + port du client maitre
@@ -627,7 +634,7 @@ public class StartView extends javax.swing.JFrame {
                 System.out.println("Considéré comme un salon d'id: " + msg.toString());
 
                 Message mesg = (Message) msg;
-                int idsalon = (int) mesg.getData();
+                Integer idsalon = (Integer) mesg.getData();
 
                 //le maitre se connecte à lui même
                 Socket s1 = new Socket();
@@ -702,8 +709,8 @@ public class StartView extends javax.swing.JFrame {
         } else {
 
             try {
-                String ip = jTextField6.getText();
-                Integer port = Integer.valueOf(jTextField7.getText());
+                String ip = jTextField7.getText();
+                Integer port = Integer.valueOf(jTextField6.getText());
 
                 //Création d'une nouvelle socket
                 this.s1 = new Socket();

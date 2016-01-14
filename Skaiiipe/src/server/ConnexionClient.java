@@ -7,6 +7,7 @@ package server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -52,6 +53,7 @@ public class ConnexionClient extends Thread {
         this.id = incre;
         this.incre++;
         this.username = username;
+
     }
 
     /**
@@ -131,8 +133,7 @@ public class ConnexionClient extends Thread {
                         JOptionPane.showMessageDialog(null, "L'hôte s'est déconnecté");
                         fen.dispose();
                         break;
-                    
-                        
+
                     //Diverses action lié à l'affichage du salon
                     case Message.EFFACER:
                         fen.bh.EffacerLast(false);

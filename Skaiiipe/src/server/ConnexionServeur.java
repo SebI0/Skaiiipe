@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.Salon;
+import modele.User;
 import services.Message;
 
 /**
@@ -63,6 +64,13 @@ public class ConnexionServeur extends Thread implements Serializable {
                         System.out.println("Message reçu: " + msg);
                         Message m = (Message) msg;
                         switch (m.getType()) {
+                            case Message.PSEUDO:
+
+                                User u = (User) m.getData();
+
+                                this.serv.addUser(u.getId_salon(), u.getPseudo());
+                                this.serv.updateListeSalons();
+                                break;
                             case 0:
                                 System.out.println("Initialisation");
                                 switch (Integer.parseInt(m.getData().toString())) {
