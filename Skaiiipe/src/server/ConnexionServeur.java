@@ -95,16 +95,11 @@ public class ConnexionServeur extends Thread implements Serializable {
                         Message m = (Message) msg;
                         //Gestion des actions
                         switch (m.getType()) {
-
                             case Message.PSEUDO:
-
                                 User u = (User) m.getData();
-
                                 this.serv.addUser(u.getId_salon(), u.getPseudo());
                                 this.serv.updateListeSalons();
                                 break;
-
-                            //Initlaisation
 
                             case 0:
                                 System.out.println("Initialisation");
