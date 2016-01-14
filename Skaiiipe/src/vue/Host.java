@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.Salon;
+import server.Broadcaster;
 import server.ConnexionClient;
 import services.Message;
 import tppaint2014.Fenetre;
@@ -38,7 +39,7 @@ public class Host extends Thread {
      * @param f Fenetre de peinture associé au client qui héberge le salon.
      * @see Fenetre
      */
-    private ArrayList<ConnexionClient> ListClient;
+    private ArrayList<Broadcaster> ListClient;
     int id;
     private int id_salon;
     public static int incre = 1000;
@@ -46,6 +47,10 @@ public class Host extends Thread {
     private ObjectInputStream inputStream;
     public ObjectOutputStream outputStream;
     private Fenetre f;
+
+    public ArrayList<Broadcaster> getListClient() {
+        return ListClient;
+    }
 
     /**
      * Constructeur d'un Hôte
@@ -96,7 +101,7 @@ public class Host extends Thread {
             
             while (!Thread.currentThread().isInterrupted()) {
                 Socket s = this.serveurSocket.accept();
-                ConnexionClient ConnexionCli = new ConnexionClient(s, f, this);
+                Broadcaster ConnexionCli = new Broadcaster(s, this);
                 ListClient.add(ConnexionCli);
                 outputStream.writeObject(new Message(Message.MAJ_SALON, "Seb"));
                 ConnexionCli.start();
@@ -107,15 +112,18 @@ public class Host extends Thread {
     }
 
     
-    public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
+   /* public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
         System.out.println("HelloBroadcast");
+        int incre=0;
         for(ConnexionClient client : ListClient){
+            incre++;
             if(!client.equals(c)){
                 ObjectOutputStream outputClient = new ObjectOutputStream(client.getSocket().getOutputStream());
                 outputClient.writeObject(m);
-                //utputClient.close();
+                
             }
         }
+        System.out.println("Broadcasté :"+incre);
         
-    }
+    }*/
 }

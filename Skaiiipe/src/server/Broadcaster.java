@@ -7,13 +7,12 @@ package server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import services.Message;
-import tppaint2014.Fenetre;
 import tppaint2014.Forme;
 import vue.Host;
 
@@ -21,48 +20,73 @@ import vue.Host;
  *
  * @author Elie
  */
-public class ConnexionClient extends Thread {
+public class Broadcaster extends Thread {
 
-    Socket socketServer;
-    int id;
-    public static int incre = 0;
-    private ObjectInputStream InputClient;
-    private Fenetre fen;
+    private Socket socketServer;
     private Host hote;
-    private String username;
+    private List<Broadcaster> ListClient;
+    private ObjectInputStream InputClient;
+    private ObjectOutputStream OutputClient;
+
+    public Broadcaster(Socket socketServer, Host hote) {
+        this.socketServer = socketServer;
+        this.hote = hote;
+    }
+
+    public Socket getSocket() {
+        return socketServer;
+    }
+
+    public void setSocket(Socket socketServer) {
+        this.socketServer = socketServer;
+    }
+
+    public Host getHote() {
+        return hote;
+    }
+
+    public void setHote(Host hote) {
+        this.hote = hote;
+    }
+
+    public List<Broadcaster> getListClient() {
+        return ListClient;
+    }
+
+    public void setListClient(List<Broadcaster> ListClient) {
+        this.ListClient = ListClient;
+    }
 
     public ObjectInputStream getInputClient() {
         return InputClient;
     }
 
-    public Socket getSocket() {
-
-        return socketServer;
-
+    public ObjectOutputStream getOutputClient() {
+        return OutputClient;
     }
 
-    public void SetFenetre(Fenetre f) {
-        this.fen = f;
-        System.out.println("Fenetre initialisée");
-
-    }
-
-    public ConnexionClient(java.net.Socket socketServer, Fenetre f) throws IOException {
-      //  this.hote = hote;
-        this.fen = f;
-        this.socketServer = socketServer;
-        this.id = incre;
-        this.incre++;
-        this.username = username;
+    
+    
+    
+    public void broadcastAllUser(Broadcaster c, Message m) throws IOException {
+        System.out.println("HelloBroadcast");
+        int incre = 0;
+        for (Broadcaster client : hote.getListClient()) {
+            incre++;
+            if (!client.equals(c)) {
+                client.getOutputClient().writeObject(m);
+            }
+        }
+        System.out.println("Broadcasté :" + incre);
 
     }
 
     @Override
-    public void run() {
-
-        try {
+    public void run(){
+         try {
             //écouteur du client maitre
             InputClient = new ObjectInputStream(socketServer.getInputStream());
+            OutputClient = new ObjectOutputStream(socketServer.getOutputStream());
         } catch (IOException ex) {
             Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,22 +96,15 @@ public class ConnexionClient extends Thread {
                 Message msg = (Message) InputClient.readObject();
                 Forme receivedForme = (Forme) msg.getData();
                 switch (msg.getType()) {
-                    case Message.FORME:
-
-                        System.out.println(fen);
-                        fen.lesFormes.add(receivedForme);
-                        fen.zg.repaint();
-
-                        System.out.println("Une forme est reçue");
+                    case Message.FORME:                       
+                        broadcastAllUser(this,msg);
                         break;
                     case Message.FERMETURE_SALON:
                         hote.outputStream.writeObject(new Message(Message.FERMETURE_SALON, hote.getId_salon()));
                         break;
 
                     case Message.GOMME:
-                        fen.lesFormes.add(receivedForme);
-                        fen.zg.repaint();
-                        System.out.println(receivedForme);
+
                         break;
                 }
 
@@ -97,6 +114,5 @@ public class ConnexionClient extends Thread {
                 Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 }

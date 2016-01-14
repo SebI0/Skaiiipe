@@ -520,7 +520,7 @@ public class StartView extends javax.swing.JFrame {
                     
                     //Création d'une nouvelle fenêtre qui n'est pas celle de l'hôte
                     Fenetre f = new Fenetre(false);
-                    ConnexionClient ConnexionSock = new ConnexionClient(s1, f, null); //socket d'écoute ==> on écoute ce que le client maitre envoie
+                    ConnexionClient ConnexionSock = new ConnexionClient(s1, f); //socket d'écoute ==> on écoute ce que le client maitre envoie
                     f.setConnection(ConnexionSock);
                     ConnexionSock.start();
                     f.setVisible(true);
@@ -569,7 +569,7 @@ public class StartView extends javax.swing.JFrame {
 
                 Fenetre f = new Fenetre(true);
 
-                ConnexionClient ConnexionSock = new ConnexionClient(s1, f, null);
+                ConnexionClient ConnexionSock = new ConnexionClient(s1, f);
                 f.setConnection(ConnexionSock);
                 ConnexionSock.start();
 
