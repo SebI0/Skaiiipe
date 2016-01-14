@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import services.Message;
 import tppaint2014.Fenetre;
@@ -70,10 +71,10 @@ public class ConnexionClient extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) InputClient.readObject();
-                Forme receivedForme = (Forme) msg.getData();
+                Forme receivedForme;
                 switch (msg.getType()) {
                     case Message.FORME:
-
+                         receivedForme = (Forme) msg.getData();
                         System.out.println(fen);
                         fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();
@@ -81,10 +82,12 @@ public class ConnexionClient extends Thread {
                         System.out.println("Une forme est reçue");
                         break;
                     case Message.FERMETURE_SALON:
-                        hote.outputStream.writeObject(new Message(Message.FERMETURE_SALON, hote.getId_salon()));
+                        JOptionPane.showMessageDialog(null, "L'hôte s'est déconnecté");
+                        fen.dispose();
                         break;
 
                     case Message.GOMME:
+                        receivedForme = (Forme) msg.getData();
                         fen.lesFormes.add(receivedForme);
                         fen.zg.repaint();
                         System.out.println(receivedForme);

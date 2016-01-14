@@ -94,19 +94,8 @@ public class Broadcaster extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) InputClient.readObject();
-                Forme receivedForme = (Forme) msg.getData();
-                switch (msg.getType()) {
-                    case Message.FORME:                       
-                        broadcastAllUser(this,msg);
-                        break;
-                    case Message.FERMETURE_SALON:
-                        hote.outputStream.writeObject(new Message(Message.FERMETURE_SALON, hote.getId_salon()));
-                        break;
+                broadcastAllUser(this,msg);
 
-                    case Message.GOMME:
-
-                        break;
-                }
 
             } catch (IOException ex) {
                 Logger.getLogger(ConnexionClient.class.getName()).log(Level.SEVERE, null, ex);
