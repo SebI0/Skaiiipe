@@ -70,7 +70,7 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
 
         //  this.connexionClient.start();
 //        this.connexionClient.SetFenetre(this);
-        this.setTitle("TP PAINT POO2");
+        this.setTitle("Skaiiipe - MCS");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null); //centrer
 
@@ -82,7 +82,7 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
 
         zg.addMouseListener(es);
         zg.addMouseMotionListener(es); //move et drag
-        System.out.println("hello");
+       
 
         this.setLayout(new BorderLayout()); //LAYOUT
         this.add(bh, BorderLayout.NORTH);
@@ -98,26 +98,21 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
         menu = new MenuBar();
         Menu m1 = new Menu("FICHIER");
         MenuItem m11 = menuEnregisrer();
-        MenuItem m12 = menuCharger();
+      
         MenuItem m13 = menuQuiter();
-        MenuItem m14 = menuCreer();
+       
 
-        Menu m2 = new Menu("CTP POO");
-        MenuItem m21 = menuSymetrie();
-        MenuItem m22 = menuColorier();
-        MenuItem m23 = menuChoisir();
+      
 
-        m2.add(m21);
-        m2.add(m22);
-        m2.add(m23);
+       
 
-        m1.add(m14);
+       
         m1.add(m11);
-        m1.add(m12);
+       
         m1.add(m13);
 
         menu.add(m1);
-        menu.add(m2);
+       
         this.setMenuBar(menu);
 
 //        m11.addActionListener(this);

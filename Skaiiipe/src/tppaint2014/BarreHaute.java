@@ -19,8 +19,7 @@ public class BarreHaute extends Panel implements ActionListener {
     public Button effaceFamille;
     public Button effaceCouleur;
 
-    public Button rotGauche;
-    public Button rotDroite;
+
 
     public Button logout;
 
@@ -52,13 +51,11 @@ public class BarreHaute extends Panel implements ActionListener {
         effaceFamille = new Button("EFFACER UNE FAMILLE");
         effaceCouleur = new Button("EFFACER UNE COULEUR");
 
-        rotGauche = new Button("ROTATION GAUCHE");
-        rotDroite = new Button("ROTATION DROITE");
+       
 
         logout = new Button("Deconnexion"); //logout bouton
 
-        rotGauche.addActionListener(this);
-        rotDroite.addActionListener(this);
+      
 
         //Ne pas oublier !
         efface.addActionListener(this);
@@ -70,8 +67,7 @@ public class BarreHaute extends Panel implements ActionListener {
 
         logout.addActionListener(this);
 
-        this.add(rotDroite);
-        this.add(rotGauche);
+       
 
         this.add(gomme);
         this.add(couleurs);
@@ -82,8 +78,7 @@ public class BarreHaute extends Panel implements ActionListener {
         this.add(effaceFamille);
         this.add(effaceCouleur);
 
-        this.add(rotDroite);
-        this.add(rotGauche);
+       
 
     }
 
@@ -183,48 +178,8 @@ public class BarreHaute extends Panel implements ActionListener {
             EffacerFamille(true);
         } else if (ae.getSource().equals(effaceCouleur)) {
             EffacerCouleur(true);
-        } else if (ae.getSource().equals(rotGauche)) {
-            System.out.println("ROTATION GAUCHE");
-
-            for (Forme f : saF.lesFormes) {
-                int oldFa = f.a;
-                int oldFc = f.c;
-                if (f instanceof Droite) {
-
-                    f.a = saF.zg.getWidth() / 2 + f.b - saF.zg.getHeight() / 2;
-                    f.b = saF.zg.getHeight() / 2 - oldFa + saF.zg.getWidth() / 2;
-
-                    f.c = saF.zg.getWidth() / 2 + f.d - saF.zg.getHeight() / 2;
-                    f.d = saF.zg.getHeight() / 2 - oldFc + saF.zg.getWidth() / 2;
-                } else if (f instanceof Rectangle) {
-                    f.a = saF.zg.getWidth() / 2 + f.b - saF.zg.getHeight() / 2;
-                    f.b = saF.zg.getHeight() / 2 - oldFa + saF.zg.getWidth() / 2;
-
-                }
-
-            }
-            saF.zg.repaint();
-
-        } else if (ae.getSource().equals(rotDroite)) {
-            System.out.println("Rot droite");
-            for (Forme f : saF.lesFormes) {
-
-                int oldFa = f.a;
-                int oldFc = f.c;
-                if (f instanceof Droite) {
-                    f.a = saF.zg.getWidth() / 2 - f.b + saF.zg.getHeight() / 2;
-                    f.b = saF.zg.getHeight() / 2 + oldFa - saF.zg.getWidth() / 2;
-
-                    f.c = saF.zg.getWidth() / 2 - f.d + saF.zg.getHeight() / 2;
-                    f.d = saF.zg.getHeight() / 2 + oldFc - saF.zg.getWidth() / 2;
-                } else if (f instanceof Rectangle) {
-                    f.a = saF.zg.getWidth() / 2 - f.b + saF.zg.getHeight() / 2;
-                    f.b = saF.zg.getHeight() / 2 + oldFa - saF.zg.getWidth() / 2;
-
-                }
-
-            }
-            saF.zg.repaint();
+        
+          
         } else if (ae.getSource().equals(logout)) {
             //envoi requete serveur de salons 
             Message logoutMessage = new Message(Message.DECONNEXION, null);
