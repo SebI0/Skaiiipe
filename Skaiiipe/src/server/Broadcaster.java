@@ -25,11 +25,11 @@ import vue.Host;
 public class Broadcaster extends Thread {
 
     /**
-     * @param socketServer Socket liant le client et le serveur
-     * @param hote Lien vers le processus père de l'hôte
-     * @see Host
-     * @param InputClient Flux de lecture des données du client vers l'hôte
-     * @param InputClient Flux d'écriture des données du client vers l'hôte
+     * \param socketServer Socket liant le client et le serveur
+     * \param hote Lien vers le processus père de l'hôte
+     * \see Host
+     * \param InputClient Flux de lecture des données du client vers l'hôte
+     * \param InputClient Flux d'écriture des données du client vers l'hôte
      */
     private Socket socketServer;
     private Host hote;

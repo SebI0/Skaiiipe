@@ -19,8 +19,6 @@ public class BarreHaute extends Panel implements ActionListener {
     public Button effaceFamille;
     public Button effaceCouleur;
 
-
-
     public Button logout;
 
     public Fenetre saF;
@@ -51,11 +49,7 @@ public class BarreHaute extends Panel implements ActionListener {
         effaceFamille = new Button("EFFACER UNE FAMILLE");
         effaceCouleur = new Button("EFFACER UNE COULEUR");
 
-       
-
         logout = new Button("Deconnexion"); //logout bouton
-
-      
 
         //Ne pas oublier !
         efface.addActionListener(this);
@@ -67,8 +61,6 @@ public class BarreHaute extends Panel implements ActionListener {
 
         logout.addActionListener(this);
 
-       
-
         this.add(gomme);
         this.add(couleurs);
         this.add(formes);
@@ -77,8 +69,6 @@ public class BarreHaute extends Panel implements ActionListener {
 
         this.add(effaceFamille);
         this.add(effaceCouleur);
-
-       
 
     }
 
@@ -112,19 +102,20 @@ public class BarreHaute extends Panel implements ActionListener {
         saF.zg.repaint();
     }
 
-    public void EffacerFamille(boolean broadcast) {
+    public void EffacerFamille(boolean broadcast, String forme) {
         if (broadcast) {
-            saF.communication.send(Message.EFFACER_FAM, null);
+            saF.communication.send(Message.EFFACER_FAM, formes.getSelectedItem());
         }
         System.out.println("Effacement de la famille: " + formes.getSelectedItem());
         int i;
 
         for (i = 0; i < saF.lesFormes.size(); i++) {
-            if ((formes.getSelectedItem().equals("rectangle") && saF.lesFormes.get(i) instanceof Rectangle)
-                    || (formes.getSelectedItem().equals("droite") && saF.lesFormes.get(i) instanceof Droite)
-                    || (formes.getSelectedItem().equals("cercle") && saF.lesFormes.get(i) instanceof Cercle)
-                    || (formes.getSelectedItem().equals("disque") && saF.lesFormes.get(i) instanceof Disque)
-                    || (formes.getSelectedItem().equals("triangle") && saF.lesFormes.get(i) instanceof Triangle)) {
+            if ((forme.equals("rectangle") && saF.lesFormes.get(i) instanceof Rectangle)
+                    || (forme.equals("droite") && saF.lesFormes.get(i) instanceof Droite)
+                    || (forme.equals("cercle") && saF.lesFormes.get(i) instanceof Cercle)
+                    || (forme.equals("disque") && saF.lesFormes.get(i) instanceof Disque)
+                    || (forme.equals("triangle") && saF.lesFormes.get(i) instanceof Triangle)
+                    || (forme.equals("camion") && saF.lesFormes.get(i) instanceof Camion)) {
                 saF.lesFormes.remove(i);
                 i--;
             }
@@ -133,18 +124,18 @@ public class BarreHaute extends Panel implements ActionListener {
         saF.zg.repaint();
     }
 
-    public void EffacerCouleur(boolean broadcast) {
+    public void EffacerCouleur(boolean broadcast, String couleur) {
         if (broadcast) {
-            saF.communication.send(Message.EFFACER_COULEUR, null);
+            saF.communication.send(Message.EFFACER_COULEUR, couleurs.getSelectedItem());
         }
         System.out.println("Effacement de toutes les formes de couleur: " + couleurs.getSelectedItem());
         int i;
 
         for (i = 0; i < saF.lesFormes.size(); i++) {
-            if ((couleurs.getSelectedItem().equals("BLEU") && saF.lesFormes.get(i).col.equals(Color.blue))
-                    || (couleurs.getSelectedItem().equals("ROUGE") && saF.lesFormes.get(i).col.equals(Color.red))
-                    || (couleurs.getSelectedItem().equals("VERT") && saF.lesFormes.get(i).col.equals(Color.green))
-                    || (couleurs.getSelectedItem().equals("ORANGE") && saF.lesFormes.get(i).col.equals(Color.orange))) {
+            if ((couleur.equals("BLEU") && saF.lesFormes.get(i).col.equals(Color.blue))
+                    || (couleur.equals("ROUGE") && saF.lesFormes.get(i).col.equals(Color.red))
+                    || (couleur.equals("VERT") && saF.lesFormes.get(i).col.equals(Color.green))
+                    || (couleur.equals("ORANGE") && saF.lesFormes.get(i).col.equals(Color.orange))) {
                 saF.lesFormes.remove(i);
                 i--;
             }
@@ -175,11 +166,10 @@ public class BarreHaute extends Panel implements ActionListener {
                 saF.ModeGomme = true;
             }
         } else if (ae.getSource().equals(effaceFamille)) {
-            EffacerFamille(true);
+            EffacerFamille(true, formes.getSelectedItem());
         } else if (ae.getSource().equals(effaceCouleur)) {
-            EffacerCouleur(true);
-        
-          
+            EffacerCouleur(true, couleurs.getSelectedItem());
+
         } else if (ae.getSource().equals(logout)) {
             //envoi requete serveur de salons 
             Message logoutMessage = new Message(Message.DECONNEXION, null);

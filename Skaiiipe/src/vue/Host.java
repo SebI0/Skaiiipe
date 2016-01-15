@@ -50,9 +50,9 @@ public class Host extends Thread {
     private Fenetre f;
     private boolean active;
 
-    
     /**
      * Acesseur a la liste des broadcaster
+     *
      * @return Liste de broadcaster
      */
     public ArrayList<Broadcaster> getListClient() {

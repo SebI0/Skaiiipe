@@ -172,7 +172,6 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     @Override
     public void mouseExited(MouseEvent e) {
     }
-    
 
     @Override
     public void mouseDragged(MouseEvent e) { //motion
@@ -197,10 +196,9 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
                 g.drawOval(xf, yf, 10, 10);
                 g.fillOval(xf, yf, 10, 10);
                 saF.lesFormes.add(F);
-                
-             
-                    this.saF.communication.sendGomme(F);
-            
+
+                this.saF.communication.sendGomme(F);
+
             }
         }
 

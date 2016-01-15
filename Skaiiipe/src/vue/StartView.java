@@ -33,7 +33,6 @@ import tppaint2014.Fenetre;
  */
 public class StartView extends javax.swing.JFrame {
 
-
     private Socket s1;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
@@ -604,13 +603,12 @@ public class StartView extends javax.swing.JFrame {
         } else {
             //création salon
             try {
-                ServerSocket s = new ServerSocket(0); //socketserveur du client maitre
+                //on crée le socket d'écoute du client matire avec un port aléaoire parmi ceux disponibles
+                ServerSocket s = new ServerSocket(0);
 
                 System.out.println("Demande création de salon");
 
                 Message m = new Message(Message.CREATION_SALON, new Salon(s.getInetAddress().getLocalHost().getHostAddress(), s.getLocalPort(), jTextField2.getText(), jComboBox1.getSelectedItem().toString(), jTextField1.getText()));
-                System.out.println(m);
-
                 //envoi de la création de salon avec ip + port du client maitre
                 outputStream.writeObject(m);
                 //retour du serveur de salons
@@ -622,29 +620,27 @@ public class StartView extends javax.swing.JFrame {
 
                 //le maitre se connecte à lui même
                 Socket s1 = new Socket();
-                //  ServerSocket s1 = new ServerSocket(0);
-                InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getHostAddress(), s.getLocalPort()); //
+                InetSocketAddress sa = new InetSocketAddress(s.getInetAddress().getHostAddress(), s.getLocalPort()); 
                 s1.connect(sa);
-                System.out.println("Connexion Accepted");
-
+                
+                //lancement de la fenetre de dessin
                 Fenetre f = new Fenetre(true);
 
+                //création de la socket d'écoute
                 ConnexionClient ConnexionSock = new ConnexionClient(s1, f);
-                f.setConnection(ConnexionSock);
+                f.setConnection(ConnexionSock); //on définit la socket d'écoute comme un attribut de la fenetre de dessin
                 ConnexionSock.start();
 
+                //socket d'écriture du client matire
                 Host hote = new Host(s, inputStream, outputStream, f);
                 hote.setId_salon(idsalon);
                 hote.start();
 
-                System.out.println("1");
-                ConnexionSock.SetFenetre(f);
-//            ConnexionSock.start();
-                System.out.println("2");
 
-                System.out.println("3");
+                ConnexionSock.SetFenetre(f);
+          
                 f.setVisible(true);
-                System.out.println("4");
+
 
             } catch (IOException ex) {
                 Logger.getLogger(StartView.class

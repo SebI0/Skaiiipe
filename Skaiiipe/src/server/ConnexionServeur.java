@@ -25,7 +25,6 @@ import services.Message;
  */
 public class ConnexionServeur extends Thread implements Serializable {
 
-
     Socket socketServer;
     int id;
     public static int incre = 0;

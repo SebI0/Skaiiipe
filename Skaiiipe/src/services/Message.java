@@ -8,7 +8,8 @@ package services;
 import java.io.Serializable;
 
 /**
- * Objet message utilisé pour transmetre des informations 
+ * Objet message utilisé pour transmetre des informations
+ *
  * @author Elie
  */
 public class Message implements Serializable {
@@ -31,13 +32,13 @@ public class Message implements Serializable {
     public static final int ERROR = -999;
     public static final int INIT = 0;
 
-
     private Object data;
 
     private int type;
 
     /**
      * Constructeur d'un message à transmettre
+     *
      * @param typ Entier désignant le type de message que l'on souhaite envoyer
      * @param Data Données que l'on souhaite envoyer
      */
@@ -48,6 +49,7 @@ public class Message implements Serializable {
 
     /**
      * Méthode qui retourne les données d'un messages
+     *
      * @return data Objet transmis
      */
     public Object getData() {
@@ -56,17 +58,18 @@ public class Message implements Serializable {
 
     /**
      * Méthode qui retourne le type d'un message
+     *
      * @return type entier qui désigne le type de message
      */
     public int getType() {
         return type;
     }
-    
+
     /**
      * Retourne le message en chaine de charactères
+     *
      * @return chaine de caractères
      */
-
     @Override
     public String toString() {
         return "Message{" + "data=" + data + ", type=" + type + '}';

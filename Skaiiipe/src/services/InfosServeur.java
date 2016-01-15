@@ -13,13 +13,13 @@ import modele.Salon;
 
 /**
  * Classe d'objet nécessaire au transfert des informations des salons
+ *
  * @author Elie
  */
 public class InfosServeur implements Serializable {
 
     List<Salon> listServers;
 
-    
     /**
      * Constructeur d'un objet InfosServeur
      */
@@ -29,6 +29,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Ajouter un salon à la liste des salons
+     *
      * @param connexion Salon que l'on souhaite ajouter
      * @see Salon
      */
@@ -38,6 +39,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Retourne la listes des salons
+     *
      * @return SalonActifs Liste de Salon
      * @see Salon
      */
@@ -54,6 +56,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Supprimer un salon de la liste des salons
+     *
      * @param elt Salon
      * @see Salon
      */
@@ -77,6 +80,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Retourne le nombre de salons
+     *
      * @return Valeur numérique
      */
     public int size() {
@@ -85,6 +89,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Retourne leses informations des salons sous formes de caractères
+     *
      * @return chaine de caractère
      */
     @Override

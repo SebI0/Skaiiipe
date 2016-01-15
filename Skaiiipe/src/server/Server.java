@@ -32,7 +32,6 @@ import services.InfosServeur;
  */
 public class Server extends Thread implements Serializable {
 
-
     InfosServeur listServers;
     private ArrayList<Salon> salons;
     int id;
@@ -43,7 +42,7 @@ public class Server extends Thread implements Serializable {
 
     public static int incre = 1000;
 
-        /**
+    /**
      * Constructeur par défaut d'un serveur
      */
     public Server() {
@@ -51,7 +50,7 @@ public class Server extends Thread implements Serializable {
         incre++;
     }
 
-       /**
+    /**
      * Consctructeur d'un serveur
      *
      * @param ip AdresseInet du serveur
@@ -68,19 +67,19 @@ public class Server extends Thread implements Serializable {
         this.listUsers = listUsers;
     }
 
-        /**
+    /**
      * Réécriture du processus serveur
      */
     @Override
     public void run() {
-                /**
+        /**
          * Initialisation des variables de listing
          */
         listServers = new InfosServeur();
         this.salons = new ArrayList<Salon>();
 
         try {
-                        //Initialisation socket d'écoute principale
+            //Initialisation socket d'écoute principale
 
             ServerSocket s2 = new ServerSocket();
 
@@ -91,7 +90,7 @@ public class Server extends Thread implements Serializable {
 
             updateListeSalons();
             while (!Thread.currentThread().isInterrupted()) {
-                 //Acceptation des connexions
+                //Acceptation des connexions
 
                 Socket s = s2.accept();
                 ConnexionServeur ServerConnexion = new ConnexionServeur(s, this);
@@ -106,6 +105,7 @@ public class Server extends Thread implements Serializable {
 
     /**
      * Ajout d'un utlisateur à un salon
+     *
      * @param id_salon Identifiant numérique d'un salon
      * @param pseudo Chaine de caractère
      */
@@ -119,12 +119,11 @@ public class Server extends Thread implements Serializable {
             }
         }
 
- 
-
     }
 
     /**
      * Retourne une lsite des salons actifs
+     *
      * @return SalonActifs Liste de salon
      */
     public List<Salon> getListServers() {
@@ -139,8 +138,10 @@ public class Server extends Thread implements Serializable {
         return SalonActifs;
 
     }
+
     /**
      * Retourne une lsite des salons actifs
+     *
      * @return SalonActifs Liste de salon
      */
     public List<Salon> getSalons() {
@@ -155,10 +156,11 @@ public class Server extends Thread implements Serializable {
         return SalonActifs;
     }
 
-       /**
-        * Initialisation de la liste de salons
-        * @param salons Liste des Salons
-        */
+    /**
+     * Initialisation de la liste de salons
+     *
+     * @param salons Liste des Salons
+     */
     public void setSalons(ArrayList<Salon> salons) {
         this.salons = salons;
         updateListeSalons();
@@ -166,6 +168,7 @@ public class Server extends Thread implements Serializable {
 
     /**
      * Ajouter un salon à la liste des salons
+     *
      * @param salon Salon que l'on souhaite ajouter
      * @see Salon
      */

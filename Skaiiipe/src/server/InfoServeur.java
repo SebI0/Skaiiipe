@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Objet permettant de communiquer des informations au serveurs/client
+ *
  * @author Elie
  */
 public class InfoServeur implements Serializable {
@@ -17,9 +18,9 @@ public class InfoServeur implements Serializable {
     int port;
     String nom;
 
-    
     /**
      * Constructeur de l'objet
+     *
      * @param adresse String adresse du serveur
      * @param port Port d'écoute du serveur
      * @param nom Nom du serveur
@@ -32,7 +33,9 @@ public class InfoServeur implements Serializable {
 
     /**
      * Réécriture de la fonction toString pour la mise en forme
-     * @return Retourne une chaine de caractères avec les informations de l'objet
+     *
+     * @return Retourne une chaine de caractères avec les informations de
+     * l'objet
      */
     @Override
     public String toString() {

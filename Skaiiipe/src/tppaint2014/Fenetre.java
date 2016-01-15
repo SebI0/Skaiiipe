@@ -82,7 +82,6 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
 
         zg.addMouseListener(es);
         zg.addMouseMotionListener(es); //move et drag
-       
 
         this.setLayout(new BorderLayout()); //LAYOUT
         this.add(bh, BorderLayout.NORTH);
@@ -98,21 +97,15 @@ public class Fenetre extends Frame { //Frame <=> Objet graphique JAVA
         menu = new MenuBar();
         Menu m1 = new Menu("FICHIER");
         MenuItem m11 = menuEnregisrer();
-      
+
         MenuItem m13 = menuQuiter();
-       
 
-      
-
-       
-
-       
         m1.add(m11);
-       
+
         m1.add(m13);
 
         menu.add(m1);
-       
+
         this.setMenuBar(menu);
 
 //        m11.addActionListener(this);

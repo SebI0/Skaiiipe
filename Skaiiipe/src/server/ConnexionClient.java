@@ -142,10 +142,12 @@ public class ConnexionClient extends Thread {
                         fen.bh.EffacerTout(false);
                         break;
                     case Message.EFFACER_FAM:
-                        fen.bh.EffacerFamille(false);
+                        String famille = (String) msg.getData();
+                        fen.bh.EffacerFamille(false, famille);
                         break;
                     case Message.EFFACER_COULEUR:
-                        fen.bh.EffacerCouleur(false);
+                        String couleur = (String) msg.getData();
+                        fen.bh.EffacerCouleur(false, couleur);
                         break;
                 }
 
