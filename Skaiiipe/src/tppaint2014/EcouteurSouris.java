@@ -172,6 +172,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     @Override
     public void mouseExited(MouseEvent e) {
     }
+    
 
     @Override
     public void mouseDragged(MouseEvent e) { //motion
@@ -196,58 +197,10 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
                 g.drawOval(xf, yf, 10, 10);
                 g.fillOval(xf, yf, 10, 10);
                 saF.lesFormes.add(F);
-                this.saF.communication.sendGomme(F);
-
-            } else if (this.firstClic && saF.COLORIAGE_M23 == 0) //dessin temps reel
-            {
-                saF.zg.repaint();
-                Graphics g = this.saF.zg.getGraphics(); //prendre la feuille blanche
-
-                switch (this.saF.bh.couleurs.getSelectedIndex()) {
-                    case 0:
-                        g.setColor(Color.blue);
-                        break;
-
-                    case 1:
-                        g.setColor(Color.red);
-                        break;
-
-                    case 2:
-                        g.setColor(Color.green);
-                        break;
-
-                    case 3:
-                        g.setColor(Color.orange);
-                        break;
-                }
-
-                Forme F = null;
-                //tracons la forme demandée
-
-                switch (this.saF.bh.formes.getSelectedIndex()) {
-                    case 0:
-                        g.drawLine(xi, yi, xf, yf);
-                        break;
-
-                    case 1:
-                        g.drawRect(Math.min(xi, xf), Math.min(yi, yf), Math.abs(xf - xi), Math.abs(yf - yi));
-                        break;
-
-                    case 2:
-                        g.drawOval(Math.min(xi, xf), Math.min(yi, yf), Math.abs(xf - xi), Math.abs(yf - yi));
-                        break;
-
-                    case 3:
-                        g.fillOval(Math.min(xi, xf), Math.min(yi, yf), Math.abs(xf - xi), Math.abs(yf - yi));
-                        break;
-
-                    case 4:
-                        g.drawLine(xi, yi, xf, yf);
-                        g.drawLine(xi, yi, xi + 50, yi - 50);
-                        g.drawLine(xi + 50, yi - 50, xf, yf);
-
-                        break;
-                }
+                
+             
+                    this.saF.communication.sendGomme(F);
+            
             }
         }
 

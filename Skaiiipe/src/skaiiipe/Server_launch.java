@@ -35,7 +35,6 @@ public class Server_launch extends javax.swing.JFrame {
             serveur.start();
 
             //Remplissage des éléments graphiques avec les informations du serveur:
-            //Adresse, nom et port.
             this.jTextField1.setText(ipServeur.getHostAddress());
             this.jTextField3.setText(ipServeur.getHostName());
             this.jTextField2.setText(String.valueOf(port));
