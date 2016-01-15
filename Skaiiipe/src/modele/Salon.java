@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Salon implements Serializable {
 
-    private String ip;
+    private String ip; 
     private int port;
     private String nom;
     private String catégorie;
