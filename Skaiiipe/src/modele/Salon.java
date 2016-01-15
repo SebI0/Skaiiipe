@@ -30,7 +30,7 @@ public class Salon implements Serializable {
         this.port = port;
         this.nom = nom;
         this.catégorie = catégorie;
-        this.nbUsers = 1;
+        this.nbUsers = 0;
         this.users = new ArrayList<String>();
         this.active = true;
         this.id = incre;
@@ -93,6 +93,7 @@ public class Salon implements Serializable {
 
     public void addUser(String username) {
         this.users.add(username);
+        this.nbUsers++;
 
     }
 
