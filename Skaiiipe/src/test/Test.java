@@ -13,7 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- *
+ * Test de communication entre deux processus Java
  * @author Elie
  */
 public class Test {

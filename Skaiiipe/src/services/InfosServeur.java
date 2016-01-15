@@ -12,21 +12,35 @@ import java.util.List;
 import modele.Salon;
 
 /**
- *
+ * Classe d'objet nécessaire au transfert des informations des salons
  * @author Elie
  */
 public class InfosServeur implements Serializable {
 
     List<Salon> listServers;
 
+    
+    /**
+     * Constructeur d'un objet InfosServeur
+     */
     public InfosServeur() {
         listServers = new ArrayList<>();
     }
 
+    /**
+     * Ajouter un salon à la liste des salons
+     * @param connexion Salon que l'on souhaite ajouter
+     * @see Salon
+     */
     public void add(Salon connexion) {
         listServers.add(connexion);
     }
 
+    /**
+     * Retourne la listes des salons
+     * @return SalonActifs Liste de Salon
+     * @see Salon
+     */
     public List<Salon> get() {
         List<Salon> SalonActifs = new ArrayList<>();
         for (Salon elt : listServers) {
@@ -38,6 +52,11 @@ public class InfosServeur implements Serializable {
         return SalonActifs;
     }
 
+    /**
+     * Supprimer un salon de la liste des salons
+     * @param elt Salon
+     * @see Salon
+     */
     public void remove(Salon elt) {
 
         System.out.println("Liste: " + listServers);
@@ -56,10 +75,18 @@ public class InfosServeur implements Serializable {
 
     }
 
+    /**
+     * Retourne le nombre de salons
+     * @return Valeur numérique
+     */
     public int size() {
         return listServers.size();
     }
 
+    /**
+     * Retourne leses informations des salons sous formes de caractères
+     * @return chaine de caractère
+     */
     @Override
     public String toString() {
         String s = "";

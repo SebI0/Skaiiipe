@@ -16,6 +16,7 @@ public class Skaiiipe {
 
     /**
      * @param args the command line arguments
+     * @throws IOException Erreur avec la socket
      */
     public static void main(String[] args) throws IOException {
 

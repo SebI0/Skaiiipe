@@ -78,7 +78,7 @@ public class Broadcaster extends Thread {
     /**
      * Assigner a un processus un processus hôte
      *
-     * @param hote
+     * @param hote Processus Hote que l'on souhaite assigner
      * @see Host
      */
     public void setHote(Host hote) {
@@ -97,7 +97,7 @@ public class Broadcaster extends Thread {
     /**
      * Retourne le flux d'écriture de données
      *
-     * @param InputClient Flux d'écriture des données du client vers l'hôte
+     * @return OutputClient Flux d'écriture des données du client vers l'hôte
      */
     public ObjectOutputStream getOutputClient() {
         return OutputClient;
@@ -111,7 +111,7 @@ public class Broadcaster extends Thread {
      * pas le lui renvoyer l'information
      * @param m Message que l'on souhaite diffuser
      * @see Message
-     * @throws IOException
+     * @throws IOException Si une erreur lors de l'écriture s'est produit
      */
     public void broadcastAllUser(Broadcaster c, Message m) throws IOException {
         System.out.println("HelloBroadcast");
