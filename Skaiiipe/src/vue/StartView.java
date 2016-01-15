@@ -33,15 +33,7 @@ import tppaint2014.Fenetre;
  */
 public class StartView extends javax.swing.JFrame {
 
-    /**
-     * @param s1 Socket utilisée avec le client pour communiquer avec le serveur
-     * principal
-     * @param inputStr Flux de lecture du serveur principal vers le client
-     * @param outputStr Flux d'écriture du client vers serveur princpal
-     * @param listeSalons Liste de Salon comportants les différents salons que
-     * l'utilisateur peut rejoindre
-     * @see Salon
-     */
+
     private Socket s1;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;

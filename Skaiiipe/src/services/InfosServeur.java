@@ -17,9 +17,6 @@ import modele.Salon;
  */
 public class InfosServeur implements Serializable {
 
-    /**
-     * @param Liste des salons
-     */
     List<Salon> listServers;
 
     
@@ -32,7 +29,7 @@ public class InfosServeur implements Serializable {
 
     /**
      * Ajouter un salon à la liste des salons
-     * @param connexion 
+     * @param connexion Salon que l'on souhaite ajouter
      * @see Salon
      */
     public void add(Salon connexion) {

@@ -13,11 +13,6 @@ import java.io.Serializable;
  */
 public class InfoServeur implements Serializable {
 
-    /**
-     * @param adresse String adresse du serveur
-     * @param port Port d'écoute du serveur
-     * @param nom Nom du serveur
-     */
     String adresse;
     int port;
     String nom;

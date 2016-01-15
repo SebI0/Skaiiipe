@@ -45,7 +45,7 @@ public class ConnexionClient extends Thread {
      *
      * @param socketServer Socket entre hote et client
      * @param f Fenetre de l'utilisateur
-     * @throws IOException
+     * @throws IOException Une erreur est survenue avec la socket
      */
     public ConnexionClient(java.net.Socket socketServer, Fenetre f) throws IOException {
         this.fen = f;

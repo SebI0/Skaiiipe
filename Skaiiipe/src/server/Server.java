@@ -32,21 +32,7 @@ import services.InfosServeur;
  */
 public class Server extends Thread implements Serializable {
 
-    /**
-     * @param listServer Objet du type InfosServeur permetant d'avoir des
-     * informations d'un salon
-     * @see InfosServeur
-     * @param salons Liste de salon permetant de lister les salons
-     * @see Salon
-     * @param id Identifiant unique du serveur principal
-     * @param ip Adresse Inet utilisé par le serveur
-     * @param port Entier contentant le port d'écoute du salon
-     * @param treeSalons Arbre contenant les salons pour l'affichage
-     * @param listUser Liste d'utilisateur servant à l'affichage des
-     * utilisateurs d'un salon
-     * @param incre Valeur numérique servant à l'identification unique d'un
-     * serveur
-     */
+
     InfosServeur listServers;
     private ArrayList<Salon> salons;
     int id;
@@ -180,7 +166,8 @@ public class Server extends Thread implements Serializable {
 
     /**
      * Ajouter un salon à la liste des salons
-     * @param salon 
+     * @param salon Salon que l'on souhaite ajouter
+     * @see Salon
      */
     public void addSalon(Salon salon) {
         this.salons.add(salon);

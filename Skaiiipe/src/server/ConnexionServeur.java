@@ -25,16 +25,7 @@ import services.Message;
  */
 public class ConnexionServeur extends Thread implements Serializable {
 
-    /**
-     * @param Socket Socket entre client et serveur
-     * @param id Identifiant numérique du client
-     * @param incre Valeur numérique permettant l'attribution unique d'un
-     * identifiant
-     * @param Server Lien vers l'objet serveur vers lequel le client est lié.
-     * @see Server
-     * @param info Objet Salon contenant les des informations d'un salon
-     * @see info
-     */
+
     Socket socketServer;
     int id;
     public static int incre = 0;

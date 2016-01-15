@@ -31,14 +31,9 @@ public class Message implements Serializable {
     public static final int ERROR = -999;
     public static final int INIT = 0;
 
-    /**
-     * @param data Objet que l'on souhaite transmettre
-     */
+
     private Object data;
 
-    /**
-     * @param type Entier désignant le type de message que l'on souhaite envoyer
-     */
     private int type;
 
     /**
