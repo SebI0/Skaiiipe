@@ -50,6 +50,11 @@ public class Host extends Thread {
     private Fenetre f;
     private boolean active;
 
+    
+    /**
+     * Acesseur a la liste des broadcaster
+     * @return Liste de broadcaster
+     */
     public ArrayList<Broadcaster> getListClient() {
         return ListClient;
     }
@@ -126,19 +131,4 @@ public class Host extends Thread {
             Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /* public void broadcastAllUser(ConnexionClient c,Message m) throws IOException{
-     System.out.println("HelloBroadcast");
-     int incre=0;
-     for(ConnexionClient client : ListClient){
-     incre++;
-     if(!client.equals(c)){
-     ObjectOutputStream outputClient = new ObjectOutputStream(client.getSocket().getOutputStream());
-     outputClient.writeObject(m);
-                
-     }
-     }
-     System.out.println("Broadcasté :"+incre);
-        
-     }*/
 }

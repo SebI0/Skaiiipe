@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Test de communication entre deux processus Java
  * @author Elie
  */
 public class testSocket extends Thread {

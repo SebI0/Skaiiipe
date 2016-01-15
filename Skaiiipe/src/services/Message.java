@@ -8,11 +8,14 @@ package services;
 import java.io.Serializable;
 
 /**
- *
+ * Objet message utilisé pour transmetre des informations 
  * @author Elie
  */
 public class Message implements Serializable {
 
+    /**
+     * Définition de variables statiques
+     */
     public static final int FORME = 10;
     public static final int LIST_SALONS = 11;
     public static final int CREATION_SALON = 12;
@@ -28,22 +31,46 @@ public class Message implements Serializable {
     public static final int ERROR = -999;
     public static final int INIT = 0;
 
+    /**
+     * @param data Objet que l'on souhaite transmettre
+     */
     private Object data;
 
+    /**
+     * @param type Entier désignant le type de message que l'on souhaite envoyer
+     */
     private int type;
 
+    /**
+     * Constructeur d'un message à transmettre
+     * @param typ Entier désignant le type de message que l'on souhaite envoyer
+     * @param Data Données que l'on souhaite envoyer
+     */
     public Message(int typ, Object Data) {
         this.type = typ;
         this.data = Data;
     }
 
+    /**
+     * Méthode qui retourne les données d'un messages
+     * @return data Objet transmis
+     */
     public Object getData() {
         return data;
     }
 
+    /**
+     * Méthode qui retourne le type d'un message
+     * @return type entier qui désigne le type de message
+     */
     public int getType() {
         return type;
     }
+    
+    /**
+     * Retourne le message en chaine de charactères
+     * @return chaine de caractères
+     */
 
     @Override
     public String toString() {
