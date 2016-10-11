@@ -5,6 +5,6 @@ C’est une reproduction en Java de plusieurs webapp basées sur ce même princi
 
 [Exemple](http://www.pixiclip.com/beta/pixiclip "Exemple")
 
-*Crée dans le cadre des cours de MCS3*
+*Crée dans le cadre des cours de MCS3.*
 
 *Centrale Lille, Formation IG2ienne*
